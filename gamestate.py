@@ -82,10 +82,6 @@ class GameLogic:
 
         
 
-#hoffentlich gehts
-
-        
-
     
     
             
