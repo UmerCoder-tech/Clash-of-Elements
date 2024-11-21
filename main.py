@@ -99,6 +99,11 @@ def draw_round_wins(player_rounds, x, y):
     for i in range(player_rounds):
         pygame.draw.circle(screen, colors["GOLD"], (x + i * 20, y), 10)
 
+
+
+
+
+#Muss überarbeitet werden
 # Menü-Logik
 def main_menu():
     button_image_paths = [

@@ -1,5 +1,5 @@
+#Muss überarbeitet werden
 import pygame
-
 pygame.init()
 
 class CharacterSelectScreen:
