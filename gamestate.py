@@ -51,11 +51,11 @@ class GameLogic:
 
     def reset_fighters(self):
         """Setzt die Spieler auf ihre Anfangswerte zurück."""
-        self.fighter_1.health = 10
+        self.fighter_1.health = 100
         self.fighter_1.alive = True
         self.fighter_1.rect.x, self.fighter_1.rect.y = 200, 310
 
-        self.fighter_2.health = 10
+        self.fighter_2.health = 100
         self.fighter_2.alive = True
         self.fighter_2.rect.x, self.fighter_2.rect.y = 700, 310
     
