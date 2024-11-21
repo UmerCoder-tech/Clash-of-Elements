@@ -37,11 +37,11 @@ class GameLogic:
         current_time = pygame.time.get_ticks()
         if not self.round_over:
             if not self.fighter_1.alive:
-                self.round_wins_fighter_1 += 1
+                self.round_wins_fighter_2 += 1
                 self.round_over = True
                 self.round_start_time = current_time
             elif not self.fighter_2.alive:
-                self.round_wins_fighter_2 += 1
+                self.round_wins_fighter_1 += 1
                 self.round_over = True
                 self.round_start_time = current_time
         else:
@@ -51,11 +51,11 @@ class GameLogic:
 
     def reset_fighters(self):
         """Setzt die Spieler auf ihre Anfangswerte zurück."""
-        self.fighter_1.health = 100
+        self.fighter_1.health = 10
         self.fighter_1.alive = True
         self.fighter_1.rect.x, self.fighter_1.rect.y = 200, 310
 
-        self.fighter_2.health = 100
+        self.fighter_2.health = 10
         self.fighter_2.alive = True
         self.fighter_2.rect.x, self.fighter_2.rect.y = 700, 310
     
@@ -68,6 +68,7 @@ class GameLogic:
             pygame.draw.circle(self.screen, self.colors["GOLD"], (760 + i * 20, 102), 10)
             
     
+    
     def ermittle_winner(self,):
         """Zeigt den Gewinner zentriert auf dem Bildschirm an."""
         winner = None
@@ -75,9 +76,13 @@ class GameLogic:
             if self.round_wins_fighter_1 == 3:
                 winner = "Zuko"
                 self.draw_text(f"{winner} wins!!!", self.fonts["winner_font"], self.colors["LILA"], 230, 60)
-            elif self.round_wins_fighter_1 == 3:
+            elif self.round_wins_fighter_2 == 3:
                 winner = "Susanoo"
                 self.draw_text(f"{winner} wins!!!", self.fonts["winner_font"], self.colors["LILA"], 100, 60)
+
+        
+
+#hoffentlich gehts
 
         
 
