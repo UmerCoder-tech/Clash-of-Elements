@@ -16,6 +16,14 @@ class GameLogic:
         # Neue Attribute für Rundengewinne
         self.round_wins_fighter_1 = 0
         self.round_wins_fighter_2 = 0
+
+        self.timer = 40  # Startwert des Timers
+        self.last_timer_update = pygame.time.get_ticks()  # Zeitpunkt des letzten Updates
+
+        self.berserker_phase = False  # Berserker-Phase beginnt deaktiviert
+        self.berserker_display_time = 3000  # Berserker-Nachricht 3 Sekunden anzeigen
+        self.berserker_start_time = None  # Zeitpunkt der Aktivierung
+
       
 
     def update_countdown(self):
@@ -35,22 +43,41 @@ class GameLogic:
     def check_round_status(self):
         """Überprüft, ob die Runde vorbei ist und aktualisiert den Status."""
         current_time = pygame.time.get_ticks()
+
+        # Prüfen, ob die Runde vorbei ist
         if not self.round_over:
+            # Spieler 1 besiegt
             if not self.fighter_1.alive:
                 self.round_wins_fighter_2 += 1
                 self.round_over = True
                 self.round_start_time = current_time
+
+            # Spieler 2 besiegt
             elif not self.fighter_2.alive:
                 self.round_wins_fighter_1 += 1
                 self.round_over = True
                 self.round_start_time = current_time
-        else:
-            if current_time - self.round_start_time > self.round_cooldown:
-                self.round_over = False
-                self.reset_fighters()
+
+            # Timer abgelaufen
+            elif self.timer == 0:
+                # Vergleiche Lebenspunkte
+                if self.fighter_1.health > self.fighter_2.health:
+                    self.round_wins_fighter_1 += 1
+                elif self.fighter_2.health > self.fighter_1.health:
+                    self.round_wins_fighter_2 += 1
+                else:
+                    print("Unentschieden in dieser Runde!")  # Optional: Unentschieden behandeln
+                self.round_over = True
+                self.round_start_time = current_time
+
+        # Runden-Cooldown prüfen
+        elif current_time - self.round_start_time > self.round_cooldown:
+            self.round_over = False
+            self.reset_fighters()
 
     def reset_fighters(self):
-        """Setzt die Spieler auf ihre Anfangswerte zurück."""
+        """Setzt die Spieler und den Timer auf ihre Anfangswerte zurück."""
+        # Spielerwerte zurücksetzen
         self.fighter_1.health = 100
         self.fighter_1.alive = True
         self.fighter_1.rect.x, self.fighter_1.rect.y = 200, 310
@@ -58,6 +85,16 @@ class GameLogic:
         self.fighter_2.health = 100
         self.fighter_2.alive = True
         self.fighter_2.rect.x, self.fighter_2.rect.y = 700, 310
+
+        # Timer zurücksetzen
+        self.timer = 40
+        self.last_timer_update = pygame.time.get_ticks()
+
+        # Berserker-Phase und Multiplikator zurücksetzen
+        self.berserker_phase = False  # Berserker-Phase deaktivieren
+        self.fighter_1.damage_multiplier = 1  # Standard-Schaden
+        self.fighter_2.damage_multiplier = 1  # Standard-Schaden
+
     
 
     def draw_round_wins(self):
@@ -68,6 +105,7 @@ class GameLogic:
             pygame.draw.circle(self.screen, self.colors["GOLD"], (760 + i * 20, 102), 10)
             
     
+
     
     def ermittle_winner(self,):
         """Zeigt den Gewinner zentriert auf dem Bildschirm an."""
@@ -79,12 +117,60 @@ class GameLogic:
             elif self.round_wins_fighter_2 == 3:
                 winner = "Susanoo"
                 self.draw_text(f"{winner} wins!!!", self.fonts["winner_font"], self.colors["LILA"], 100, 60)
-
-        
-
     
+    def update_timer(self):
+        """Aktualisiert den Timer und zeigt ihn auf dem Bildschirm an."""
+        # Timer läuft nur, wenn intro_count <= 0 ist
+        if self.intro_count <= 0 and self.timer > 0:
+            current_time = pygame.time.get_ticks()
+            
+            # Aktualisiere den Timer jede Sekunde
+            if current_time - self.last_timer_update >= 1000:  # 1000 ms = 1 Sekunde
+                self.timer -= 1
+                self.last_timer_update = current_time
+
+        # Timer anzeigen
+        self.draw_text(
+            str(self.timer), 
+            self.fonts["score_font"], 
+            self.colors["LILA"], 
+            412, 40
+        )
+
+        # Timer-Ende
     
-            
+    def check_berserker_phase(self):
+        """Aktiviert die Berserker-Phase, wenn der Timer 20 Sekunden erreicht."""
+        if self.timer <= 20 and not self.berserker_phase:
+            self.berserker_phase = True
+            print("Berserker-Phase aktiviert!")  # Debug-Ausgabe
+    
+    def update_fighter_berserker_state(self):
+        """Aktualisiert den Zustand der Berserker-Phase für beide Fighter."""
+        if self.berserker_phase:
+            self.fighter_1.damage_multiplier = 2
+            self.fighter_2.damage_multiplier = 2
+        else:
+            self.fighter_1.damage_multiplier = 1
+            self.fighter_2.damage_multiplier = 1
+    
+    def check_berserker_phase(self):
+        """Aktiviert die Berserker-Phase, wenn der Timer 20 Sekunden erreicht."""
+        if self.timer <= 20 and not self.berserker_phase:
+            self.berserker_phase = True
+            self.berserker_start_time = pygame.time.get_ticks()  # Zeitpunkt speichern
+            print("Berserker-Phase aktiviert!")  # Debug-Ausgabe
 
-            
-
+    def display_berserker_message(self):
+        """Zeigt die Berserker-Nachricht für eine bestimmte Zeit an."""
+        if self.berserker_start_time:
+            elapsed_time = pygame.time.get_ticks() - self.berserker_start_time
+            if elapsed_time < self.berserker_display_time:
+                self.draw_text(
+                    "BERSERKER-PHASE!",
+                    self.fonts["berserk_front"],  
+                    self.colors["RED"],
+                    40, 200
+                )
+            else:
+                self.berserker_start_time = None  # Nachricht nicht mehr anzeigen

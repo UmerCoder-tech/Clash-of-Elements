@@ -40,4 +40,13 @@ animations_susanoo = {
     "death": load_animation_frames("Susanoo/death_frames/death_uncen", 20, scale_factor)
 }
 
+animations_basim = {
+    "idle": load_animation_frames("Basim/idle_frames/idle", 8, scale_factor)
+}
+
+animations_mai = {
+    "idle": load_animation_frames("Mai/idle_frames/idle",8, scale_factor),
+    "atk1": load_animation_frames("Mai/1atk_frames/1_atk",7,scale_factor)
+}
+
 
