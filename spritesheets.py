@@ -41,12 +41,41 @@ animations_susanoo = {
 }
 
 animations_basim = {
-    "idle": load_animation_frames("Basim/idle_frames/idle", 8, scale_factor)
+    "idle": load_animation_frames("Basim/idle_frames/idle", 8, scale_factor),
+    "run": load_animation_frames("Basim/run_frames/run", 8, scale_factor),
+    "jump": load_animation_frames("Basim/jump_frames/j_up", 3, scale_factor),
+    "defend": load_animation_frames("Basim/defend_frames/defend", 8, scale_factor),
+    "atk1": load_animation_frames("Basim/atk1_frames/1_atk", 8, scale_factor),
+    "atk2": load_animation_frames("Basim/atk2_frames/2_atk", 18, scale_factor),
+    "atk3": load_animation_frames("Basim/atk3_frames/3_atk", 26, scale_factor),
+    "take_hit": load_animation_frames("Basim/take_hit_frames/take_hit", 6, scale_factor),
+    "death": load_animation_frames("Basim/death_frames/death", 19, scale_factor)
 }
 
 animations_mai = {
     "idle": load_animation_frames("Mai/idle_frames/idle",8, scale_factor),
-    "atk1": load_animation_frames("Mai/1atk_frames/1_atk",7,scale_factor)
+    "atk1": load_animation_frames("Mai/1atk_frames/1_atk",7,scale_factor),
+    "atk2": load_animation_frames("Mai/2atk_frames/2_atk",21,scale_factor),
+    "atk3": load_animation_frames("Mai/3atk_frames/3_atk",27,scale_factor),
+    "run":  load_animation_frames("Mai/walk_frames/walk",10,scale_factor),
+    "jump": load_animation_frames("Mai/jump_frames/j_up",3,scale_factor),
+    "defend": load_animation_frames("Mai/defend_frames/defend", 12, scale_factor),
+    "take_hit": load_animation_frames("Mai/take_hit_frames/take_hit",7,scale_factor),
+    "death": load_animation_frames("Mai/death_frames/death",16,scale_factor)
+    
+}
+
+animations_rayna = {
+    "idle": load_animation_frames("Mai/idle_frames/idle",8, scale_factor),
+    "atk1": load_animation_frames("Mai/1atk_frames/1_atk",7,scale_factor),
+    "atk2": load_animation_frames("Mai/2atk_frames/2_atk",21,scale_factor),
+    "atk3": load_animation_frames("Mai/3atk_frames/3_atk",27,scale_factor),
+    "run":  load_animation_frames("Mai/walk_frames/walk",10,scale_factor),
+    "jump": load_animation_frames("Mai/jump_frames/j_up",3,scale_factor),
+    "defend": load_animation_frames("Mai/defend_frames/defend", 12, scale_factor),
+    "take_hit": load_animation_frames("Mai/take_hit_frames/take_hit",7,scale_factor),
+    "death": load_animation_frames("Mai/death_frames/death",16,scale_factor)
+    
 }
 
 

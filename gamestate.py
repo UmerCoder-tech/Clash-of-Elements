@@ -78,11 +78,11 @@ class GameLogic:
     def reset_fighters(self):
         """Setzt die Spieler und den Timer auf ihre Anfangswerte zurück."""
         # Spielerwerte zurücksetzen
-        self.fighter_1.health = 100
+        self.fighter_1.health = 10
         self.fighter_1.alive = True
         self.fighter_1.rect.x, self.fighter_1.rect.y = 200, 310
 
-        self.fighter_2.health = 100
+        self.fighter_2.health = 10
         self.fighter_2.alive = True
         self.fighter_2.rect.x, self.fighter_2.rect.y = 700, 310
 
@@ -105,19 +105,30 @@ class GameLogic:
             pygame.draw.circle(self.screen, self.colors["GOLD"], (760 + i * 20, 102), 10)
             
     
-
     
-    def ermittle_winner(self,):
-        """Zeigt den Gewinner zentriert auf dem Bildschirm an."""
+    def ermittle_winner(self, end_screen=None):
+        # Überprüft, ob ein Spieler drei Runden gewonnen hat, und zeigt den Gewinner an.
         winner = None
-        if self.round_wins_fighter_1 == 3 or self.round_wins_fighter_2 == 3:
-            if self.round_wins_fighter_1 == 3:
-                winner = "Zuko"
-                self.draw_text(f"{winner} wins!!!", self.fonts["winner_font"], self.colors["LILA"], 230, 60)
-            elif self.round_wins_fighter_2 == 3:
-                winner = "Susanoo"
-                self.draw_text(f"{winner} wins!!!", self.fonts["winner_font"], self.colors["LILA"], 100, 60)
+
+        # Überprüfe, ob Spieler 1 gewonnen hat
+        if self.round_wins_fighter_1 == 3:
+            winner = self.fighter_1.name  # Dynamischer Name von Spieler 1
+
+        # Überprüfe, ob Spieler 2 gewonnen hat
+        elif self.round_wins_fighter_2 == 3:
+            winner = self.fighter_2.name  # Dynamischer Name von Spieler 2
+
+    # Gewinnertext anzeigen und Endscreen vorbereiten
+        if winner:
+            if end_screen:
+                end_screen.set_winner(winner)  # Gewinnertext an den Endscreen übergeben
+            return True  # Es gibt einen Gewinner
     
+        return False  # Kein Gewinner
+    
+    
+
+
     def update_timer(self):
         """Aktualisiert den Timer und zeigt ihn auf dem Bildschirm an."""
         # Timer läuft nur, wenn intro_count <= 0 ist
@@ -174,3 +185,7 @@ class GameLogic:
                 )
             else:
                 self.berserker_start_time = None  # Nachricht nicht mehr anzeigen
+
+    
+
+

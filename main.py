@@ -1,24 +1,18 @@
+
 import pygame
 from pygame import mixer
+from game_manager import GameManager
 from buttons import AnimatedButton
 from spritesheets import animations_zuko, animations_susanoo, animations_basim, animations_mai
 from champion import Champion
 from gamestate import GameLogic
 from selectscreen import CharacterSelectScreen
 from ui_manager import UIManager
+from endscreen import EndScreen
 
 # Initialisiere Pygame
 pygame.init()
 mixer.init()
-
-main_theme = pygame.mixer.music.load("Audio/Ryus Ost.mp3")
-pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play(-1, 0.0, 5000)
-
-dragon_slayer_fx = pygame.mixer.Sound("Audio/assets_audio_magic.wav")
-dragon_slayer_fx.set_volume(0.5)
-katana__fx = pygame.mixer.Sound("Audio/assets_audio_sword.wav")
-katana__fx.set_volume(0.5)
 
 # Bildschirmgröße und Framerate
 SCREEN_WIDTH = 1000
@@ -26,21 +20,19 @@ SCREEN_HEIGHT = 600
 FPS = 60
 
 # Farben
-
 colors = {
     "LILA": (128, 0, 128),
     "WHITE": (255, 255, 255),
     "BLACK": (0, 0, 0),
-    "MIDNIGHT_BLUE": (25, 25, 112),  # RGB für Mitternachtsblau
+    "MIDNIGHT_BLUE": (25, 25, 112),
     "SILBER": (192, 192, 192),
     "GOLD": (255, 215, 0),
     "DUNKEL_GRÜN": (0, 100, 0),
     "RED": (255, 0, 0),
-    "BLUE":(0, 0, 255)
+    "BLUE": (0, 0, 255)
 }
 
-
-#define fonts
+# Schriften
 fonts = {
     "count_font": pygame.font.Font("Fonts/Orbitron.ttf", 180),
     "score_font": pygame.font.Font("Fonts/Orbitron.ttf", 100),
@@ -51,200 +43,104 @@ fonts = {
     "winner_font": pygame.font.Font("Fonts/Oswald.ttf", 150),
 }
 
-
 def draw_text(text, font, text_col, x, y):
     # text: Der anzuzeigende Text (String).
     # font: Das pygame.font.Font-Objekt, das den Schriftstil und die Größe definiert.
     # text_col: Die Farbe des Textes als RGB-Tupel, z. B. (255, 255, 255) für Weiß.
     # x, y: Die Koordinaten, an denen der Text auf dem Bildschirm gezeichnet wird.
-
     img = font.render(text, True, text_col)  # Render den Text als Bild (antialiasing=True, text_col für die Farbe).
     screen.blit(img, (x, y))  # Zeichne das Bild an die gewünschte Position auf dem Bildschirm.
-
-bg_image = pygame.image.load("Hintergrund/Fate's Moon.png")
-# Funktion zum Zeichnen
-def draw_bg():
-    scaled_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-    screen.blit(scaled_bg, (0, 0))
-
 
 # Fenster erstellen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("2D Fighting Game")
 clock = pygame.time.Clock()
 
-# Jetzt die Spritesheets importieren
-#from spritesheets import animations_zuko, animations_susanoo
-#from testfighter import Fighter
-#from gamestate import GameLogic
-#from ui_manager import UIManager
+# Hintergrund
+bg_image = pygame.image.load("Hintergrund/Fate's Moon.png")
+def draw_bg():
+    scaled_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen.blit(scaled_bg, (0, 0))
 
+# Soundeffekte
+dragon_slayer_fx = pygame.mixer.Sound("Audio/assets_audio_magic.wav")
+dragon_slayer_fx.set_volume(0.5)
+katana__fx = pygame.mixer.Sound("Audio/assets_audio_sword.wav")
+katana__fx.set_volume(0.5)
 
-
-# Spieler erstellen
-fighter_1 = Champion(1, 200, 310, animations_zuko, dragon_slayer_fx)  # Spieler 1
-fighter_2 = Champion(2, 700, 310, animations_susanoo, katana__fx)  # Spieler 2
-
-# Initialisierung der Spiel-Logik
-game_logic = GameLogic(fighter_1, fighter_2, fonts, colors, screen, draw_text)
+# UI-Manager und Endbildschirm
 ui_manager = UIManager(screen, fonts, colors, draw_text)
-
-
-
-
-#Muss überarbeitet werden
-# Menü-Logik
-def main_menu():
-    button_image_paths = [
-        'Buttons/Start/Start1.png',
-        'Buttons/Start/Start2.png',
-        'Buttons/Start/Start3.png',
-        'Buttons/Start/Start4.png',
-        'Buttons/Start/Start5.png'
-    ]
-    animated_button = AnimatedButton(button_image_paths, SCREEN_WIDTH // 2 - 75, SCREEN_HEIGHT // 2 - 37, 150, 75)
-    menu_running = True
-    while menu_running:
-        dt = clock.tick(FPS) / 1000
-        screen.fill(colors["BLACK"])
-        animated_button.update(dt)
-        animated_button.draw(screen)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return None
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if animated_button.is_clicked(event.pos):
-                    return True
-
-        pygame.display.update()
-
-
-
-
-
-
-
-
-
-
-#Es muss noch die das main_game mit dem intigrierten select menü in die Hauptschleife intigriert werden
-
-
-
-
-"""""
-def main_game(selected_character):
-# Hauptspiel-Schleife
-    fighter_1 = Champion(1, 200, 310, animations_zuko, dragon_slayer_fx if selected_character == "Zuko" else katana__fx)
-    fighter_2 = Champion(2, 700, 310, animations_susanoo, katana__fx if selected_character == "Zuko" else dragon_slayer_fx)
-
-    game_logic = GameLogic(fighter_1, fighter_2, fonts, colors, screen, draw_text)
-
-    run = True
-    while run:
-        clock.tick(FPS)
-
-    # Ereignisse abfragen
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
-        
-        draw_bg()
-
-        ui_manager.draw_bg()
-        ui_manager.draw_fighter_profilepicture(1, 20, 64)  # Spieler 1 (Zuko)
-        ui_manager.draw_fighter_profilepicture(2, 930, 64)  # Spieler 2 (Susanoo)
-
-
-
-        # Lebensbalken zeichnen
-        ui_manager.draw_health_bar(fighter_1.health, 20, 20)
-        ui_manager.draw_health_bar(fighter_2.health, 580, 20)
-    
-
-
-        #Manabalken
-        ui_manager.draw_mana_bar(fighter_1.mana, 80, 65)
-        ui_manager.draw_mana_bar(fighter_2.mana, 618, 65)
-
-        #namen der spieler
-        draw_text("ZUKO",fonts["name_font"], colors["RED"], 80, 80)
-        draw_text("SUSANOO",fonts["name_font"], colors["BLUE"], 817, 80)
-
-
-    
-
-        # Countdown aktualisieren
-        game_logic.update_countdown()
-
-        # Timer aktualisieren und anzeigen (startet erst nach Countdown)
-        game_logic.update_timer()
-
-        game_logic.check_berserker_phase()
-        game_logic.update_fighter_berserker_state()
-
-        # Berserker-Nachricht anzeigen
-        game_logic.display_berserker_message()
-
-        # Runde prüfen
-        game_logic.check_round_status()
-
-        # Rundengewinne zeichnen
-        game_logic.draw_round_wins()
-
-        # Spieler-Updates und Zeichnen
-        if game_logic.intro_count <= 0:
-            fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_2)
-            fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_1)
-            fighter_1.update()
-            fighter_2.update()
-
-            
-
-        fighter_1.update()
-        fighter_2.update()
-
-        # Spieler zeichnen
-        fighter_1.draw(screen)
-        fighter_2.draw(screen)
-
-        game_logic.ermittle_winner()
-
-        game_logic.update_timer()
-        pygame.display.update()
-    return None
-"""
+end_screen = EndScreen(screen, fonts, colors)
 
 
 def main_game(selected_characters):
-    print(f"Spiel gestartet mit: {selected_characters}")  # Debugging
+    print(f"Spiel gestartet mit: {selected_characters}")
     
-    # Positionen auf dem Bildschirm
-    left_position = (200, 310)
-    right_position = (700, 310)
-    
-    # Charakter-Animationen basierend auf der Auswahl
-    animations = {
-        "Zuko": animations_zuko,
-        "Susanoo": animations_susanoo,
-        "Basim": animations_basim,
-        "Mai": animations_mai
+    # Charakterdaten
+    characters = {
+        "Zuko": {
+            "animations": animations_zuko,
+            "sound": dragon_slayer_fx,
+            "attributes": {
+                "name": "Zuko",
+                "profile_picture": "path/to/zuko_profile.png"
+            }
+        },
+        "Susanoo": {
+            "animations": animations_susanoo,
+            "sound": katana__fx,
+            "attributes": {
+                "name": "Susanoo",
+                "profile_picture": "path/to/susanoo_profile.png"
+            }
+        },
+        "Basim": {
+            "animations": animations_basim,
+            "sound": dragon_slayer_fx,
+            "attributes": {
+                "name": "Basim",
+                "profile_picture": "path/to/basim_profile.png"
+            }
+        },
+        "Mai": {
+            "animations": animations_mai,
+            "sound": katana__fx,
+            "attributes": {
+                "name": "Mai",
+                "profile_picture": "path/to/mai_profile.png"
+            }
+        },
     }
 
-    # Soundeffekte für die Charaktere (optional)
-    sounds = {
-        "Zuko": dragon_slayer_fx,
-        "Susanoo": katana__fx,
-        "Basim": dragon_slayer_fx,  # Beispiel
-        "Mai": katana__fx,          # Beispiel
-    }
+    # Erstelle Champion-Objekte für beide Spieler
+    fighter_1_data = characters[selected_characters[0]]
+    fighter_2_data = characters[selected_characters[1]]
 
-    # Charaktere initialisieren
-    fighter_1 = Champion(1, left_position[0], left_position[1], animations[selected_characters[0]], sounds[selected_characters[0]])
-    fighter_2 = Champion(2, right_position[0], right_position[1], animations[selected_characters[1]], sounds[selected_characters[1]])
+    fighter_1 = Champion(
+        1,  # Spieler 1 ID
+        200,  # X-Position
+        310,  # Y-Position
+        fighter_1_data["animations"],
+        fighter_1_data["sound"],
+        fighter_1_data["attributes"]["name"]
+    )
+
+    fighter_2 = Champion(
+        2,  # Spieler 2 ID
+        700,  # X-Position
+        310,  # Y-Position
+        fighter_2_data["animations"],
+        fighter_2_data["sound"],
+        fighter_2_data["attributes"]["name"]
+    )
+
     # Spiel-Logik initialisieren
     game_logic = GameLogic(fighter_1, fighter_2, fonts, colors, screen, draw_text)
+
+    # Gewinner-Logik zurücksetzen
+    winner_detected = False
+    winner_detected_time = None
+    winner_display_time = 3000  # 3 Sekunden
 
     run = True
     while run:
@@ -253,105 +149,132 @@ def main_game(selected_characters):
         # Ereignisse verarbeiten
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run = False
+                game_manager.running = False
+                return None
+
+        # Gewinnerprüfung
+        if not winner_detected:
+            winner = game_logic.ermittle_winner(end_screen)
+            if winner:
+                winner_detected = True
+                winner_detected_time = pygame.time.get_ticks()
 
         # Hintergrund zeichnen
         draw_bg()
 
-        ui_manager.draw_bg()
-        ui_manager.draw_champion_profilepicture(1, 20, 64)  # Spieler 1 (Zuko)
-        ui_manager.draw_champion_profilepicture(2, 930, 64)  # Spieler 2 (Susanoo)
-
-
-
-        # Lebensbalken zeichnen
-        ui_manager.draw_health_bar(fighter_1.health, 20, 20)
-        ui_manager.draw_health_bar(fighter_2.health, 580, 20)
-
-        ui_manager.draw_champion_profilepicture(selected_characters[0], 20, 60)  # Links
-        ui_manager.draw_champion_profilepicture(selected_characters[1], 930, 60)  # Rechts
-
-        #Manabalken
-        ui_manager.draw_mana_bar(fighter_1.mana, 80, 65)
-        ui_manager.draw_mana_bar(fighter_2.mana, 618, 65)
-
-        #namen der spieler
-        ui_manager.draw_champion_name(selected_characters[0], 20, 60)  # Name links
-        ui_manager.draw_champion_name(selected_characters[1], 580, 60)  # Name rechts
-
-    
-
-        # Countdown aktualisieren
-        game_logic.update_countdown()
-
-        # Timer aktualisieren und anzeigen (startet erst nach Countdown)
-        game_logic.update_timer()
-
-        game_logic.check_berserker_phase()
-        game_logic.update_fighter_berserker_state()
-
-        # Berserker-Nachricht anzeigen
-        game_logic.display_berserker_message()
-
-        # Runde prüfen
-        game_logic.check_round_status()
-
-        # Rundengewinne zeichnen
-        game_logic.draw_round_wins()
-
-        # Spieler zeichnen und aktualisieren
-        if game_logic.intro_count <= 0:
+        # Bewegung und Aktualisierung der Spieler, falls Countdown beendet ist
+        if not winner_detected and game_logic.intro_count <= 0:
             fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_2)
             fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_1)
-            fighter_1.update()
-            fighter_2.update()
 
+        fighter_1.update()
+        fighter_2.update()
+
+        # Spieler zeichnen
         fighter_1.draw(screen)
         fighter_2.draw(screen)
 
-        game_logic.ermittle_winner()
+        # UI aktualisieren
+        ui_manager.draw_health_bar(fighter_1.health, 20, 20)
+        ui_manager.draw_health_bar(fighter_2.health, 580, 20)
+        ui_manager.draw_champion_profilepicture(selected_characters[0], 20, 60)
+        ui_manager.draw_champion_profilepicture(selected_characters[1], 930, 60)
+        ui_manager.draw_mana_bar(fighter_1.mana, 80, 65)
+        ui_manager.draw_mana_bar(fighter_2.mana, 618, 65)
+
+        # Namen der Spieler anzeigen
+        draw_text(fighter_1_data["attributes"]["name"], fonts["name_font"], colors["WHITE"], 80, 80)
+        draw_text(fighter_2_data["attributes"]["name"], fonts["name_font"], colors["WHITE"], 817, 80)
 
         # Spiel-Logik aktualisieren
-        game_logic.update_countdown()
-        game_logic.check_round_status()
-        game_logic.draw_round_wins()
+        if not winner_detected:
+            game_logic.update_countdown()
+            game_logic.update_timer()
+            game_logic.check_berserker_phase()
+            game_logic.update_fighter_berserker_state()
+            game_logic.display_berserker_message()
+            game_logic.check_round_status()
+            game_logic.draw_round_wins()
+
+        # Gewinneranzeige
+        if winner_detected:
+            current_time = pygame.time.get_ticks()
+
+            # Gewinnertext vorbereiten
+            winner_text = f"{end_screen.winner} WINS!"
+            rendered_text = fonts["winner_font"].render(winner_text, True, colors["GOLD"])
+
+            # Gewinnertext mittig positionieren
+            text_width = rendered_text.get_width()
+            text_height = rendered_text.get_height()
+            x = (SCREEN_WIDTH - text_width) // 2
+            y = (SCREEN_HEIGHT - text_height) // 2
+
+            # Gewinnertext anzeigen
+            screen.blit(rendered_text, (x, y))
+
+            # Prüfe, ob die Anzeigezeit vorbei ist
+            if winner_detected_time and current_time - winner_detected_time > winner_display_time:
+                return "end_screen"
 
         pygame.display.update()
 
-    return None
+    #return None  // nochmal nachschauen
 
 
 
-    # Hauptprogramm
+
+
+# Hauptprogramm
 if __name__ == "__main__":
-    running = True
-    game_state = "menu"
-    selected_character = None
-    while running:
-        if game_state == "menu":
-            result = main_menu()
-            if result is None:
-                running = False
-            elif result:
-                game_state = "character_select"
-        elif game_state == "character_select":
-            select_screen = CharacterSelectScreen(screen, SCREEN_WIDTH, SCREEN_HEIGHT)
-            selected_character = select_screen.run()
-            if selected_character:
-                game_state = "running"
-            else:
-                running = False
-        elif game_state == "running":
-            result = main_game(selected_character)
-            if result is None:
-                running = False
-            else:
-                game_state = "menu"
-    pygame.display.update()
+    game_manager = GameManager(screen, fonts, colors)
+    
+    def main_menu():
+        button_image_paths = [
+            'Buttons/Start/Start1.png',
+            'Buttons/Start/Start2.png',
+            'Buttons/Start/Start3.png',
+            'Buttons/Start/Start4.png',
+            'Buttons/Start/Start5.png'
+        ]
+        animated_button = AnimatedButton(button_image_paths, SCREEN_WIDTH // 2 - 75, SCREEN_HEIGHT // 2 - 37, 150, 75)
+        menu_running = True
+        while menu_running:
+            dt = clock.tick(FPS) / 1000
+            screen.fill(colors["BLACK"])
+            animated_button.update(dt)
+            animated_button.draw(screen)
 
-pygame.quit()
-exit()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_manager.running = False
+                    return None
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if animated_button.is_clicked(event.pos):
+                        return True
+
+            pygame.display.update()
+
+    game_manager.run_main_menu(main_menu)
+
+    while game_manager.running:
+        if game_manager.game_state == "menu":
+            game_manager.run_main_menu(main_menu)
+        elif game_manager.game_state == "character_select":
+            game_manager.run_character_select()
+        elif game_manager.game_state == "running":
+            result = main_game(game_manager.selected_character)
+            if result == "end_screen":
+                game_manager.game_state = "end_screen"
+        elif game_manager.game_state == "end_screen":
+            restart = end_screen.run()  # Zeige Endscreen an
+            if restart == "restart":
+                game_manager.game_state = "menu"  # Zurück ins Hauptmenü
 
 
 
+
+
+    pygame.quit()
+    exit()
 
