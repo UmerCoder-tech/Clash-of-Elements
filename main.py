@@ -2,13 +2,15 @@
 import pygame
 from pygame import mixer
 from game_manager import GameManager
-from buttons import AnimatedButton
+from buttons import Button
 from spritesheets import animations_zuko, animations_susanoo, animations_basim, animations_mai
 from champion import Champion
 from gamestate import GameLogic
-from selectscreen import CharacterSelectScreen
+#from selectscreen import CharacterSelectScreen
 from ui_manager import UIManager
 from endscreen import EndScreen
+#from map_manager import MapSelectScreen
+
 
 # Initialisiere Pygame
 pygame.init()
@@ -18,6 +20,13 @@ mixer.init()
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 FPS = 60
+
+#Hauptost
+"""""
+main_theme = pygame.mixer.music.load("Audio/Ryus Ost.mp3")
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(-1, 0.0, 5000)
+"""
 
 # Farben
 colors = {
@@ -32,6 +41,8 @@ colors = {
     "BLUE": (0, 0, 255)
 }
 
+
+
 # Schriften
 fonts = {
     "count_font": pygame.font.Font("Fonts/Orbitron.ttf", 180),
@@ -41,7 +52,37 @@ fonts = {
     "fight_font": pygame.font.Font("Fonts/Oswald.ttf", 300),
     "berserk_front": pygame.font.Font("Fonts/MetalMania.ttf", 120),
     "winner_font": pygame.font.Font("Fonts/Oswald.ttf", 150),
+    "button_font": pygame.font.Font(None, 36),  # Schriftart für den Button
+
 }
+
+
+maps = {
+        "Desert": {
+            "image": pygame.image.load("Hintergrund/Fate's Moon.png"),
+            "music": "Audio/Ryus Ost.mp3",
+            "offset_x": 10,
+            "offset_y": -100,
+        },
+        "Forest": {
+            "image": pygame.image.load("Hintergrund/Buddha_Monisstery.png"),
+            "music": "Audio/buddha.mp3",
+            "offset_x": 20,
+            "offset_y": -120,
+        },
+        "Volcano": {
+            "image": pygame.image.load("Hintergrund/castle.png"),
+            "music": "Audio/vega.mp3",
+            "offset_x": 5,
+            "offset_y": -90,
+        },
+        "Ocean": {
+            "image": pygame.image.load("Hintergrund/susuki_castle.png"),
+            "music": "Audio/Ryus Ost.mp3",
+            "offset_x": 15,
+            "offset_y": -110,
+        },
+    }
 
 def draw_text(text, font, text_col, x, y):
     # text: Der anzuzeigende Text (String).
@@ -51,16 +92,34 @@ def draw_text(text, font, text_col, x, y):
     img = font.render(text, True, text_col)  # Render den Text als Bild (antialiasing=True, text_col für die Farbe).
     screen.blit(img, (x, y))  # Zeichne das Bild an die gewünschte Position auf dem Bildschirm.
 
+# Ereignisse zentral behandeln
+def handle_events():
+    for event in pygame.event.get():  #behandelt die quitfunktion und beendet das spiel um jeden preis
+        if event.type == pygame.QUIT:
+            game_manager.running = False
+            return False
+    return True
+
+
+
 # Fenster erstellen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("2D Fighting Game")
 clock = pygame.time.Clock()
 
+"""""
 # Hintergrund
 bg_image = pygame.image.load("Hintergrund/Fate's Moon.png")
 def draw_bg():
     scaled_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
     screen.blit(scaled_bg, (0, 0))
+"""
+
+def draw_bg():
+    if game_manager.selected_map:
+        bg_image = game_manager.maps[game_manager.selected_map]["image"]
+        scaled_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        screen.blit(scaled_bg, (0, 0))
 
 # Soundeffekte
 dragon_slayer_fx = pygame.mixer.Sound("Audio/assets_audio_magic.wav")
@@ -69,11 +128,12 @@ katana__fx = pygame.mixer.Sound("Audio/assets_audio_sword.wav")
 katana__fx.set_volume(0.5)
 
 # UI-Manager und Endbildschirm
-ui_manager = UIManager(screen, fonts, colors, draw_text)
-end_screen = EndScreen(screen, fonts, colors)
+ui_manager = UIManager(screen, fonts, colors, draw_text, maps)
+game_manager = GameManager(screen, fonts, colors, maps)
+end_screen = EndScreen(screen, fonts, colors,game_manager)
 
 
-def main_game(selected_characters):
+def main_game(selected_characters,selected_map):
     print(f"Spiel gestartet mit: {selected_characters}")
     
     # Charakterdaten
@@ -116,13 +176,16 @@ def main_game(selected_characters):
     fighter_1_data = characters[selected_characters[0]]
     fighter_2_data = characters[selected_characters[1]]
 
+    map_data = maps[selected_map]
+
     fighter_1 = Champion(
         1,  # Spieler 1 ID
         200,  # X-Position
         310,  # Y-Position
         fighter_1_data["animations"],
         fighter_1_data["sound"],
-        fighter_1_data["attributes"]["name"]
+        fighter_1_data["attributes"]["name"],
+        map_data=map_data
     )
 
     fighter_2 = Champion(
@@ -131,10 +194,17 @@ def main_game(selected_characters):
         310,  # Y-Position
         fighter_2_data["animations"],
         fighter_2_data["sound"],
-        fighter_2_data["attributes"]["name"]
+        fighter_2_data["attributes"]["name"],
+        map_data=map_data
     )
 
-    # Spiel-Logik initialisieren
+
+    
+    
+
+    
+
+    # Spiel-Logik initialisieren und End-Bildschirm
     game_logic = GameLogic(fighter_1, fighter_2, fonts, colors, screen, draw_text)
 
     # Gewinner-Logik zurücksetzen
@@ -145,6 +215,9 @@ def main_game(selected_characters):
     run = True
     while run:
         clock.tick(FPS)
+
+        if not handle_events():   #sorgt dafür das wenn das spiel unterbrochen wird durch fenster schließung das spiel auch wirklich geschlossen wird
+            return None
 
         # Ereignisse verarbeiten
         for event in pygame.event.get():
@@ -219,62 +292,130 @@ def main_game(selected_characters):
 
         pygame.display.update()
 
-    #return None  // nochmal nachschauen
-
+    return None  
 
 
 
 
 # Hauptprogramm
 if __name__ == "__main__":
-    game_manager = GameManager(screen, fonts, colors)
-    
+    game_manager = GameManager(screen, fonts, colors, maps)
+
     def main_menu():
-        button_image_paths = [
-            'Buttons/Start/Start1.png',
-            'Buttons/Start/Start2.png',
-            'Buttons/Start/Start3.png',
-            'Buttons/Start/Start4.png',
-            'Buttons/Start/Start5.png'
-        ]
-        animated_button = AnimatedButton(button_image_paths, SCREEN_WIDTH // 2 - 75, SCREEN_HEIGHT // 2 - 37, 150, 75)
+
+        button_width = 200
+        button_height = 80
+        start_button_x = SCREEN_WIDTH // 2 - button_width // 2  # Zentriert
+        start_button_y = SCREEN_HEIGHT // 2 - button_height - 40  # Oberhalb des Quit-Buttons
+        quit_button_x = SCREEN_WIDTH // 2 - button_width // 2  # Zentriert
+        quit_button_y = SCREEN_HEIGHT // 2 + 40  # Unterhalb des Start-Buttons
+
+
+        # Start-Button erstellen
+        start_button = Button(
+            image_path="ButtonRed/pngegg.png",
+            x=start_button_x,
+            y=start_button_y,
+            new_width=button_width,
+            new_height=button_height,
+            text="Start",
+            font=fonts["button_font"],
+            text_color=colors["WHITE"]
+        )
+
+    # Quit-Button erstellen
+        quit_button = Button(
+            image_path="ButtonRed/pngegg.png",
+            x=quit_button_x,
+            y=quit_button_y,
+            new_width=button_width,
+            new_height=button_height,
+            text="Quit",
+            font=fonts["button_font"],
+            text_color=colors["WHITE"]
+        )
+
+
+    
+
+        #animated_button = AnimatedButton(button_image_paths, SCREEN_WIDTH // 2 - 75, SCREEN_HEIGHT // 2 - 37, 150, 75)
         menu_running = True
+
         while menu_running:
             dt = clock.tick(FPS) / 1000
             screen.fill(colors["BLACK"])
-            animated_button.update(dt)
-            animated_button.draw(screen)
+            #animated_button.update(dt)
+            start_button.draw(screen)
 
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_manager.running = False
+                    pygame.mixer.music.stop() #stoppt die hauptost
                     return None
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if animated_button.is_clicked(event.pos):
+                    if start_button.is_clicked(event.pos):
+                        game_manager.game_state = "character_select"
+                        #pygame.mixer.music.stop() #stoppt die hauptost
                         return True
+            
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_manager.running = False
+                    return #None
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Linksklick prüfen
+                    if start_button.is_clicked(event.pos):
+                        game_manager.game_state = "character_select"
+                        menu_running = False  # Hauptmenü-Schleife verlassen
 
+                    if quit_button.is_clicked(pygame.mouse.get_pos()):
+                        pygame.quit()
+                        exit()
+
+            #pygame.display.update()
+            # Buttons zeichnen
+            #start_button.draw(screen)
+            quit_button.draw(screen)
+
+        # Bildschirm aktualisieren
             pygame.display.update()
+            clock.tick(FPS)
+    
+
+
+
+# Stelle sicher, dass reset_game_state verfügbar ist
+
 
     game_manager.run_main_menu(main_menu)
-
+    
     while game_manager.running:
         if game_manager.game_state == "menu":
             game_manager.run_main_menu(main_menu)
         elif game_manager.game_state == "character_select":
             game_manager.run_character_select()
+        elif game_manager.game_state == "map_select":  # Hinzugefügt
+            game_manager.run_map_select()
         elif game_manager.game_state == "running":
-            result = main_game(game_manager.selected_character)
+            result = main_game(game_manager.selected_character, game_manager.selected_map)
             if result == "end_screen":
                 game_manager.game_state = "end_screen"
         elif game_manager.game_state == "end_screen":
-            restart = end_screen.run()  # Zeige Endscreen an
-            if restart == "restart":
+            result = end_screen.run()  # Zeige Endscreen an
+            if result == "restart":
                 game_manager.game_state = "menu"  # Zurück ins Hauptmenü
+            elif result == "replay":
+                game_manager.game_state = "running" #eben gespeilte runde wird neugestartet
+    
 
-
+        
+        if not handle_events():
+            break
 
 
 
     pygame.quit()
     exit()
 
+
+    

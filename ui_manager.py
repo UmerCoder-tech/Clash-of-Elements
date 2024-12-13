@@ -2,21 +2,35 @@
 import pygame
 
 class UIManager:
-    def __init__(self, screen, fonts, colors, draw_text):
+    def __init__(self, screen, fonts, colors, draw_text,maps):
         self.screen = screen
         self.fonts = fonts
         self.colors = colors
         self.draw_text = draw_text
+        self.maps = maps
+        self.current_map = None
         
         
         # Ressourcen zentral laden
-        self.bg_image = pygame.image.load("Hintergrund/Fate's Moon.png")
+        #self.bg_image = pygame.image.load("Hintergrund/Fate's Moon.png")
+        self.current_map = None
+        
         self.character_images = {
             "Zuko": pygame.image.load("Zuko/zuko_pb.png"),
             "Susanoo": pygame.image.load("Susanoo/susanoo_pb.png"),
             "Basim": pygame.image.load("Basim/basim_pb_.png"),
             "Mai": pygame.image.load("Mai/mai_pb.png"),
         }
+
+    def set_map(self, map_name):
+        """
+        Setzt die aktuelle Map basierend auf dem Namen.
+        :param map_name: Der Name der Map, die gesetzt werden soll.
+        """
+        if map_name in self.maps:
+            self.current_map = self.maps[map_name]
+        else:
+            print(f"Fehler: Map '{map_name}' existiert nicht.")
         
 
     def draw_bg(self):

@@ -186,7 +186,7 @@ class Champion:
 import pygame
 
 class Champion:
-    def __init__(self, player, x, y, animations, sound, name):
+    def __init__(self, player, x, y, animations, sound, name, map_data):
         self.player = player
         self.rect = pygame.Rect((x, y, 80, 180))
         self.vel_y = 0
@@ -218,8 +218,8 @@ class Champion:
         self.update_time = pygame.time.get_ticks()
 
         # Offset
-        self.offset_x = (self.rect.width - self.image.get_width()) // 2
-        self.offset_y = (self.rect.height - self.image.get_height()) // 2 - 110
+        self.offset_x = (self.rect.width - self.image.get_width()) // 2 + map_data["offset_x"]
+        self.offset_y = (self.rect.height - self.image.get_height()) // 2 + map_data["offset_y"]
 
     # Hinweis: Die Grundstruktur der update-Methode (Animationen basierend auf Zuständen) wurde von einem YouTube-Tutorial inspiriert.
     # Quelle: [Link zum Tutorial]
