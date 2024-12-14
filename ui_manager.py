@@ -77,15 +77,5 @@ class UIManager:
         pygame.draw.rect(self.screen, self.colors["BLACK"], (x - 2, y - 2, frame_width, frame_height))  # Rahmen
         profile_image = pygame.transform.scale(profile_image, (profile_width, profile_height))
         self.screen.blit(profile_image, (x, y))
-    
-    """""
-    def draw_champion_name(self, character_name, x, y):
-        #Zeichnet den Namen eines Charakters unterhalb der Healthbar.
-        name_font = self.fonts["name_font"]
-        name_color = self.colors["WHITE"]
-        # Text zeichnen
-        name_text = name_font.render(character_name, True, name_color)
-        name_rect = name_text.get_rect(center=(x + 180, y + 50))  # x + 200 zentriert den Namen unter einer 400px-Healthbar
-        self.screen.blit(name_text, name_rect)
-    """
+
 

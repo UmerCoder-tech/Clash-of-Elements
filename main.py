@@ -22,11 +22,11 @@ SCREEN_HEIGHT = 600
 FPS = 60
 
 #Hauptost
-"""""
-main_theme = pygame.mixer.music.load("Audio/Ryus Ost.mp3")
+
+main_theme = pygame.mixer.music.load("Audio/menu_musik.mp3")
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1, 0.0, 5000)
-"""
+
 
 # Farben
 colors = {
@@ -58,27 +58,27 @@ fonts = {
 
 
 maps = {
-        "Desert": {
+        "Field of Fate": {
             "image": pygame.image.load("Hintergrund/Fate's Moon.png"),
             "music": "Audio/Ryus Ost.mp3",
             "offset_x": 10,
             "offset_y": -100,
         },
-        "Forest": {
+        "Buddha's Monastery": {
             "image": pygame.image.load("Hintergrund/Buddha_Monisstery.png"),
-            "music": "Audio/buddha.mp3",
+            "music": "Audio/BuddhaMUSIC.mp3",
             "offset_x": 20,
             "offset_y": -120,
         },
-        "Volcano": {
+        "Castillo": {
             "image": pygame.image.load("Hintergrund/castle.png"),
-            "music": "Audio/vega.mp3",
+            "music": "Audio/VegaSOUND.mp3",
             "offset_x": 5,
             "offset_y": -90,
         },
-        "Ocean": {
+        "Emperor's Castle": {
             "image": pygame.image.load("Hintergrund/susuki_castle.png"),
-            "music": "Audio/Ryus Ost.mp3",
+            "music": "Audio/SuzukiMUSIC.mp3",
             "offset_x": 15,
             "offset_y": -110,
         },
@@ -104,7 +104,7 @@ def handle_events():
 
 # Fenster erstellen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("2D Fighting Game")
+pygame.display.set_caption("Clash of Elements")
 clock = pygame.time.Clock()
 
 """""
@@ -122,10 +122,10 @@ def draw_bg():
         screen.blit(scaled_bg, (0, 0))
 
 # Soundeffekte
-dragon_slayer_fx = pygame.mixer.Sound("Audio/assets_audio_magic.wav")
-dragon_slayer_fx.set_volume(0.5)
-katana__fx = pygame.mixer.Sound("Audio/assets_audio_sword.wav")
-katana__fx.set_volume(0.5)
+dragon_slayer_fx = pygame.mixer.Sound("Audio/FeuerritterSOUND.mp3")
+dragon_slayer_fx.set_volume(0.9) #0.5
+katana__fx = pygame.mixer.Sound("Audio/WasserfrauSOUND.mp3")
+katana__fx.set_volume(0.9) #0.5
 
 # UI-Manager und Endbildschirm
 ui_manager = UIManager(screen, fonts, colors, draw_text, maps)
@@ -299,9 +299,14 @@ def main_game(selected_characters,selected_map):
 
 # Hauptprogramm
 if __name__ == "__main__":
+
+
+
     game_manager = GameManager(screen, fonts, colors, maps)
 
     def main_menu():
+
+        #game_manager.play_music("Audio/menu_musik.mp3")
 
         button_width = 200
         button_height = 80
@@ -418,4 +423,3 @@ if __name__ == "__main__":
     exit()
 
 
-    
