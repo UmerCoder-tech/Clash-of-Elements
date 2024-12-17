@@ -6,13 +6,10 @@ from buttons import Button
 from spritesheets import animations_zuko, animations_susanoo, animations_basim, animations_mai
 from champion import Champion
 from gamestate import GameLogic
-#from selectscreen import CharacterSelectScreen
 from ui_manager import UIManager
 from endscreen import EndScreen
 from character_data import characters
 from ressource import fonts,colors,maps
-from main_menu import MainMenu
-#from map_manager import MapSelectScreen
 
 
 # Initialisiere Pygame
@@ -219,8 +216,6 @@ if __name__ == "__main__":
         start_button_y = SCREEN_HEIGHT // 2 - button_height - 40  # Oberhalb des Quit-Buttons
         quit_button_x = SCREEN_WIDTH // 2 - button_width // 2  # Zentriert
         quit_button_y = SCREEN_HEIGHT // 2 + 40  # Unterhalb des Start-Buttons
-
-
 
 
         # Start-Button erstellen
