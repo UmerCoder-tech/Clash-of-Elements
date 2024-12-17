@@ -10,6 +10,8 @@ from gamestate import GameLogic
 from ui_manager import UIManager
 from endscreen import EndScreen
 from character_data import characters
+from ressource import fonts,colors,maps
+from main_menu import MainMenu
 #from map_manager import MapSelectScreen
 
 
@@ -28,62 +30,6 @@ main_theme = pygame.mixer.music.load("Audio/menu_musik.mp3")
 pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play(-1, 0.0, 5000)
 
-
-# Farben
-colors = {
-    "LILA": (128, 0, 128),
-    "WHITE": (255, 255, 255),
-    "BLACK": (0, 0, 0),
-    "MIDNIGHT_BLUE": (25, 25, 112),
-    "SILBER": (192, 192, 192),
-    "GOLD": (255, 215, 0),
-    "DUNKEL_GRÜN": (0, 100, 0),
-    "RED": (255, 0, 0),
-    "BLUE": (0, 0, 255)
-}
-
-
-
-# Schriften
-fonts = {
-    "count_font": pygame.font.Font("Fonts/Orbitron.ttf", 180),
-    "score_font": pygame.font.Font("Fonts/Orbitron.ttf", 100),
-    "ready_attack_font": pygame.font.Font("Fonts/Oswald.ttf", 16),
-    "name_font": pygame.font.Font("Fonts/Oswald.ttf", 28),
-    "fight_font": pygame.font.Font("Fonts/Oswald.ttf", 300),
-    "berserk_front": pygame.font.Font("Fonts/MetalMania.ttf", 120),
-    "winner_font": pygame.font.Font("Fonts/Oswald.ttf", 150),
-    "button_font": pygame.font.Font(None, 36),  # Schriftart für den Button
-
-}
-
-
-maps = {
-        "Field of Fate": {
-            "image": pygame.image.load("Hintergrund/Fate's Moon.png"),
-            "music": "Audio/Ryus Ost.mp3",
-            "offset_x": 10,
-            "offset_y": -100,
-        },
-        "Buddha's Monastery": {
-            "image": pygame.image.load("Hintergrund/Buddha_Monisstery.png"),
-            "music": "Audio/BuddhaMUSIC.mp3",
-            "offset_x": 20,
-            "offset_y": -120,
-        },
-        "Castillo": {
-            "image": pygame.image.load("Hintergrund/castle.png"),
-            "music": "Audio/VegaSOUND.mp3",
-            "offset_x": 5,
-            "offset_y": -90,
-        },
-        "Emperor's Castle": {
-            "image": pygame.image.load("Hintergrund/susuki_castle.png"),
-            "music": "Audio/SuzukiMUSIC.mp3",
-            "offset_x": 15,
-            "offset_y": -110,
-        },
-    }
 
 def draw_text(text, font, text_col, x, y):
     # text: Der anzuzeigende Text (String).
@@ -109,7 +55,7 @@ pygame.display.set_caption("Clash of Elements")
 clock = pygame.time.Clock()
 
 
-def draw_bg():
+def draw_selected_map():
     if game_manager.selected_map:
         bg_image = game_manager.maps[game_manager.selected_map]["image"]
         scaled_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -117,10 +63,7 @@ def draw_bg():
 
 
 # Soundeffekte
-dragon_slayer_fx = pygame.mixer.Sound("Audio/FeuerritterSOUND.mp3")
-dragon_slayer_fx.set_volume(0.9) #0.5
-katana__fx = pygame.mixer.Sound("Audio/WasserfrauSOUND.mp3")
-katana__fx.set_volume(0.9) #0.5
+
 
 # UI-Manager und Endbildschirm
 ui_manager = UIManager(screen, fonts, colors, draw_text, maps)
@@ -192,7 +135,7 @@ def main_game(selected_characters,selected_map):
                 winner_detected_time = pygame.time.get_ticks()
 
         # Hintergrund zeichnen
-        draw_bg()
+        draw_selected_map()
 
         # Bewegung und Aktualisierung der Spieler, falls Countdown beendet ist
         if not winner_detected and game_logic.intro_count <= 0:
@@ -215,10 +158,11 @@ def main_game(selected_characters,selected_map):
         ui_manager.draw_champion_profilepicture(selected_characters[1], 930, 60)
         ui_manager.draw_mana_bar(fighter_1.mana, 80, 65)
         ui_manager.draw_mana_bar(fighter_2.mana, 618, 65)
+        ui_manager.draw_player_names(fighter_1_data, fighter_2_data)
 
         # Namen der Spieler anzeigen
-        draw_text(fighter_1_data["attributes"]["name"], fonts["name_font"], colors["WHITE"], 80, 80)
-        draw_text(fighter_2_data["attributes"]["name"], fonts["name_font"], colors["WHITE"], 817, 80)
+        #draw_text(fighter_1_data["attributes"]["name"], fonts["name_font"], colors["WHITE"], 80, 80)
+        #draw_text(fighter_2_data["attributes"]["name"], fonts["name_font"], colors["WHITE"], 817, 80)
 
         # Spiel-Logik aktualisieren
         if not winner_detected:
@@ -275,6 +219,8 @@ if __name__ == "__main__":
         start_button_y = SCREEN_HEIGHT // 2 - button_height - 40  # Oberhalb des Quit-Buttons
         quit_button_x = SCREEN_WIDTH // 2 - button_width // 2  # Zentriert
         quit_button_y = SCREEN_HEIGHT // 2 + 40  # Unterhalb des Start-Buttons
+
+
 
 
         # Start-Button erstellen

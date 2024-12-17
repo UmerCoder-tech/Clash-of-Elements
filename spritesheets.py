@@ -66,31 +66,56 @@ animations_mai = {
 }
 
 animations_rayna = {
-    "idle": load_animation_frames("Mai/idle_frames/idle",8, scale_factor),
-    "atk1": load_animation_frames("Mai/1atk_frames/1_atk",7,scale_factor),
-    "atk2": load_animation_frames("Mai/2atk_frames/2_atk",21,scale_factor),
-    "atk3": load_animation_frames("Mai/sp_atk_frames/sp_atk",32,scale_factor),
-    "run":  load_animation_frames("Mai/walk_frames/walk",10,scale_factor),
-    "jump": load_animation_frames("Mai/jump_frames/j_up",3,scale_factor),
-    "defend": load_animation_frames("Mai/defend_frames/defend", 12, scale_factor),
-    "take_hit": load_animation_frames("Mai/take_hit_frames/take_hit",7,scale_factor),
-    "death": load_animation_frames("Mai/death_frames/death",16,scale_factor)
+    "idle": load_animation_frames("Rayna/idle_frames/01_idle",8, scale_factor),
+    "atk1": load_animation_frames("Rayna/air_atk_frames/air_atk",8,scale_factor),
+    "atk2": load_animation_frames("Rayna/2_atk_frames/08_2_atk",8,scale_factor),
+    "atk3": load_animation_frames("Rayna/sp_atk_frames/10_sp_atk",11,scale_factor),
+    "run":  load_animation_frames("Rayna/run_frames/02_run",8,scale_factor),
+    "jump": load_animation_frames("Rayna/jump_full_frames/03_jump",20,scale_factor),
+    "defend": load_animation_frames("Rayna/defend_frames/11_defend", 12, scale_factor),
+    "take_hit": load_animation_frames("Rayna/take_hit_frames/12_take_hit",6,scale_factor),
+    "death": load_animation_frames("Rayna/death_frames/13_death",12,scale_factor)
     
 }
 
 animations_tenzin = {
+    "idle": load_animation_frames("Tenzin/idle_frames/idle",6, scale_factor),
+    "atk1": load_animation_frames("Tenzin/air_atk_frames/air_atk",7,scale_factor),
+    "atk2": load_animation_frames("Tenzin/2_atk_frames/2_atk",12,scale_factor),
+    "atk3": load_animation_frames("Tenzin/sp_atk_frames/sp_atk",25,scale_factor),
+    "run":  load_animation_frames("Tenzin/run_frames/run",8,scale_factor),
+    "jump": load_animation_frames("Tenzin/j_up_frames/j_up",3,scale_factor),
+    "defend": load_animation_frames("Tenzin/defend_frames/defend", 13, scale_factor),
+    "take_hit": load_animation_frames("Tenzin/take_hit_frames/take_hit",6,scale_factor),
+    "death": load_animation_frames("Tenzin/death_frames/death",18,scale_factor)
 
 }
 
 
 
 animations_thyrion = {
-
+    "idle": load_animation_frames("Thyrion/idle/idle",8, scale_factor),
+    "atk1": load_animation_frames("Thyrion/air_atk/air_atk",8,scale_factor),
+    "atk2": load_animation_frames("Thyrion/2_atk/2_atk",7,scale_factor),
+    "atk3": load_animation_frames("Thyrion/sp_atk/sp_atk",15,scale_factor),
+    "run":  load_animation_frames("Thyrion/run/run",8,scale_factor),
+    "jump": load_animation_frames("Thyrion/jump_full/jump_full",21,scale_factor),
+    "defend": load_animation_frames("Thyrion/defend/defend", 9, scale_factor),
+    "take_hit": load_animation_frames("Thyrion/take_hit/take_hit",6,scale_factor),
+    "death": load_animation_frames("Thyrion/death/death",15,scale_factor)
 }
 
 
 animations_valeryon = {
-
+    "idle": load_animation_frames("Valeryon/idle/idle",12, scale_factor),
+    "atk1": load_animation_frames("Valeryon/air_atk/air_atk",10,scale_factor),
+    "atk2": load_animation_frames("Valeryon/2_atk/2_atk",15,scale_factor),
+    "atk3": load_animation_frames("Valeryon/sp_atk/sp_atk",17,scale_factor),
+    "run":  load_animation_frames("Valeryon/run/run",10,scale_factor),
+    "jump": load_animation_frames("Valeryon/jump_full/jump",22,scale_factor),
+    "defend": load_animation_frames("Valeryon/defend/defend", 19, scale_factor),
+    "take_hit": load_animation_frames("Valeryon/take_hit/take_hit",6,scale_factor),
+    "death": load_animation_frames("Valeryon/death/death",19,scale_factor)
 }
 
 

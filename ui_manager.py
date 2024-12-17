@@ -1,6 +1,6 @@
 
 import pygame
-
+from character_data import characters
 class UIManager:
     def __init__(self, screen, fonts, colors, draw_text,maps):
         self.screen = screen
@@ -16,12 +16,15 @@ class UIManager:
         self.current_map = None
         
         #zeichnet die Profilbilder der fighter unter die Healthbars
+        """""
         self.character_images = {
             "Zuko": pygame.image.load("Zuko/zuko_pb.png"),
             "Susanoo": pygame.image.load("Susanoo/susanoo_pb.png"),
             "Basim": pygame.image.load("Basim/basim_pb_.png"),
             "Mai": pygame.image.load("Mai/mai_pb.png"),
+            
         }
+        """
 
     def set_map(self, map_name):
         """
@@ -30,14 +33,9 @@ class UIManager:
         """
         if map_name in self.maps:
             self.current_map = self.maps[map_name]
-        else:
-            print(f"Fehler: Map '{map_name}' existiert nicht.")
         
 
-    def draw_bg(self):
-        """Zeichnet den Hintergrund."""
-        scaled_bg = pygame.transform.scale(self.bg_image, (self.screen.get_width(), self.screen.get_height()))
-        self.screen.blit(scaled_bg, (0, 0))
+
 
     def draw_health_bar(self, health, x, y):
         hb_width = 400
@@ -66,7 +64,10 @@ class UIManager:
 
     def draw_champion_profilepicture(self, character_name, x, y):
         #Zeichnet das Profilbild des ausgewählten Charakters.
-        profile_image = self.character_images.get(character_name)
+        #profile_image = self.character_images.get(character_name)
+
+        # Hole das Profilbild aus dem zentralen characters-Dictionary
+        profile_image = characters.get(character_name, {}).get("loaded_profile_picture")
 
         # Sicherheitscheck: Wenn Bild nicht existiert
         if not profile_image:
@@ -78,5 +79,26 @@ class UIManager:
         pygame.draw.rect(self.screen, self.colors["BLACK"], (x - 2, y - 2, frame_width, frame_height))  # Rahmen
         profile_image = pygame.transform.scale(profile_image, (profile_width, profile_height))
         self.screen.blit(profile_image, (x, y))
+
+    
+    
+    def draw_player_names(self, fighter_1_data, fighter_2_data):
+        """
+        Zeigt die Namen der Spieler unterhalb der Mana-Balken an.
+        Die Namen werden dynamisch zentriert basierend auf ihrer Länge.
+        """
+        name_font = self.fonts["name_font"]
+
+        # Berechnung der Breite der Namen
+        name1_width = name_font.size(fighter_1_data["attributes"]["name"])[0]
+        name2_width = name_font.size(fighter_2_data["attributes"]["name"])[0]
+
+        # Dynamische Positionen für die Namen
+        name1_x = 120 - name1_width // 2  # Zentriere unter Mana-Balken 1
+        name2_x = 870 - name2_width // 2  # Zentriere unter Mana-Balken 2
+
+        # Namen zeichnen
+        self.draw_text(fighter_1_data["attributes"]["name"], name_font, self.colors["WHITE"], name1_x, 90)  # Y-Offset für Namen
+        self.draw_text(fighter_2_data["attributes"]["name"], name_font, self.colors["WHITE"], name2_x, 90)
 
 

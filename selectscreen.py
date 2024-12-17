@@ -2,11 +2,12 @@
 import pygame
 import time
 from character_data import characters
+from ressource import fonts
 
 pygame.init()
 
 class CharacterSelectScreen:
-    def __init__(self, screen, screen_width, screen_height):
+    def __init__(self, screen, screen_width, screen_height, fonts):
         self.screen = screen
         self.screen_width = screen_width
         self.screen_height = screen_height
@@ -15,8 +16,9 @@ class CharacterSelectScreen:
         # Charaktere mit Bildern laden
         #Dictionary anpassung soll der main zugegriffen werden selbe logik wie bei den spritesheets
         # Im Konstruktor hinzufügen:
-        self.title_font = pygame.font.Font("Fonts/VT323-Regular.ttf", 48)  # Schriftart-Datei und Größe
-
+        self.fonts = fonts  # Fonts-Dictionary übernehmen
+        self.vs_image = pygame.image.load("images/Versus.png")
+        self.vs_image = pygame.transform.scale(self.vs_image, (250, 250))  # Skalieren falls nötig
 
         # Positionen und Rechtecke als Dictionaries initialisieren
         self.character_positions = {} #speichert x und y posis. der Charaktere
@@ -45,6 +47,10 @@ class CharacterSelectScreen:
 
     def draw_raster(self, selected_characters):   #diese draw funktion in draw_raster umändern
         self.screen.fill((0, 0, 0))  # Hintergrundfarbe Schwarz
+        title_text = fonts["select_font"].render("SELECT YOUR FIGHTERS", True, ("RED"))  # Weißer Text
+        title_rect = title_text.get_rect(center=(self.screen_width // 2, 50))  # Zentriert oben
+        self.screen.blit(title_text, title_rect)  # Zeige den Text auf dem Bildschirm an
+
 
         # Charakterbilder zeichnen
         for name, data in self.characters.items():
@@ -68,10 +74,16 @@ class CharacterSelectScreen:
             left_image = pygame.transform.scale(left_char["loaded_profile_picture"], (200, 200))
             self.screen.blit(left_image, (50, self.screen_height // 2))
 
+            # VS-Bild zwischen den großen Profilbildern anzeigen
+            vs_x = (self.screen_width // 2) - (self.vs_image.get_width() // 2)  # Zentriert in der Mitte
+            vs_y = self.screen_height // 2  # Gleiche Y-Position wie die großen Bilder
+            self.screen.blit(self.vs_image, (vs_x, vs_y))
+
         if len(selected_characters) > 1:
             right_char = self.characters[selected_characters[1]]
             right_image = pygame.transform.scale(right_char["loaded_profile_picture"], (200, 200))
             self.screen.blit(right_image, (self.screen_width - 250, self.screen_height // 2))
+
 
         pygame.display.update()
 

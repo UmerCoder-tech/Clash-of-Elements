@@ -14,11 +14,13 @@ class MapSelectScreen:
 
         # Positionen für die Maps
         self.map_positions = [
-            (150, 150),  #Field od Fate
-            (400, 150),  #Buddha's Monestery
-            (150, 350),  #castillo
-            (400, 350),  #Emperor's Castle
+            (270, 150),  #Field od Fate  #150,150
+            (520, 150),  #Buddha's Monestery
+            (270, 350),  #castillo
+            (520, 350),  #Emperor's Castle
         ]
+
+        
 
     #unsichtbares Raster
     def draw_maps(self):
@@ -29,9 +31,11 @@ class MapSelectScreen:
             self.screen.blit(scaled_map, (x, y))
 
             #Map namen darunter anzeigen
-            text = self.fonts["name_font"].render(map_name, True, self.colors["WHITE"])
+            text = self.fonts["name_font"].render(map_name, True, self.colors["RED"])
             text_rect = text.get_rect(center=(x + 100, y + 170))
             self.screen.blit(text, text_rect) #zeichnet namen auf dem bildschirm
+
+
 
     def handle_events(self):
         #Verabeitet die Mausereignisse

@@ -55,7 +55,7 @@ class GameManager:
 
     def run_character_select(self):
         self.play_music("Audio/menu_musik.mp3")
-        select_screen = CharacterSelectScreen(self.screen, self.screen.get_width(), self.screen.get_height())
+        select_screen = CharacterSelectScreen(self.screen, self.screen.get_width(), self.screen.get_height(),self.fonts)
         self.selected_character = select_screen.run()
         if self.selected_character:
             self.game_state = "map_select"
