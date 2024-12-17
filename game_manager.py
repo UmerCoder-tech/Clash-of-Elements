@@ -38,7 +38,7 @@ class GameManager:
 
     
     def reset_game_state(self):
-        """Setzt den Zustand des Spiels zurück."""
+        #setzt die gamestate zustände sobald der endscreen erreicht wird zurück
         self.game_state = "menu"
         self.selected_character = None
         self.selected_map = None
@@ -46,22 +46,25 @@ class GameManager:
 
     
     def run_main_menu(self, main_menu):
+        self.play_music("Audio/menu_musik.mp3")
         result = main_menu()
-        if result is None:
+        if result is None:    #Das einmal so ändert das nicht auf resukt is none grfragt wird 
             self.running = False
         elif result:
             self.game_state = "character_select"
 
     def run_character_select(self):
+        self.play_music("Audio/menu_musik.mp3")
         select_screen = CharacterSelectScreen(self.screen, self.screen.get_width(), self.screen.get_height())
         self.selected_character = select_screen.run()
         if self.selected_character:
             self.game_state = "map_select"
         else:
-            self.running = False
+            self.running = False #Wartet so lange bis ein character ausgewählt wird benutzt wird(Eine map wird ausgewählt)
 
     
     def run_map_select(self):
+        self.play_music("Audio/menu_musik.mp3")
         map_screen = MapSelectScreen(self.screen, self.fonts, self.colors, self.maps)
         selected_map = map_screen.run()  # Zeige Map-Auswahlbildschirm an und warte auf Auswahl
         if selected_map:
@@ -70,15 +73,15 @@ class GameManager:
             pygame.mixer.music.play(-1)  # Musik abspielen
             self.game_state = "running"  # Spielstatus auf "running" setzen
         else:
-            self.running = False  # Spiel beenden, wenn keine Map ausgewählt wurde
+            self.running = False  # Wartet bis eine Map ausgewählt wird
 
     
 
 
     def run_end_screen(self):
         restart = self.end_screen.run()
-        if restart == "restart" and self.game_logic:
-            self.game_state = "character_select"
+        if restart == "restart" and self.game_logic: #Noch nachfragen warum self.gaem_logic
+            self.game_state = "character_select" #main_menu
 
     
 

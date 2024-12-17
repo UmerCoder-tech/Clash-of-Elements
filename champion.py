@@ -206,7 +206,7 @@ class Champion:
     # - Unterscheidung zwischen normalen Angriffen und Spezialangriffen
     def perform_attack(self, target, attack_type):
         self.attacking = True
-        self.attack_sound.play()
+        self.attack_sound.play()  #.play
         self.attack_type = attack_type
         self.update_action(f"atk{attack_type}")
 

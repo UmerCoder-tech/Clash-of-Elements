@@ -15,6 +15,7 @@ class UIManager:
         #self.bg_image = pygame.image.load("Hintergrund/Fate's Moon.png")
         self.current_map = None
         
+        #zeichnet die Profilbilder der fighter unter die Healthbars
         self.character_images = {
             "Zuko": pygame.image.load("Zuko/zuko_pb.png"),
             "Susanoo": pygame.image.load("Susanoo/susanoo_pb.png"),

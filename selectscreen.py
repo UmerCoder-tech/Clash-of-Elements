@@ -1,6 +1,7 @@
 
 import pygame
 import time
+from character_data import characters
 
 pygame.init()
 
@@ -9,56 +10,44 @@ class CharacterSelectScreen:
         self.screen = screen
         self.screen_width = screen_width
         self.screen_height = screen_height
-        self.selecting = True
-
+        self.selecting = True #zustand ob noch ausgewählt wird
+        self.characters = characters #import: character dict. aius character_data.py
         # Charaktere mit Bildern laden
-        self.characters = {
-            "Zuko": {
-                "profil_bild": pygame.transform.scale(
-                    pygame.image.load("Zuko/zuko_pb.png"), (100, 100)
-                ),
-            },
-            "Susanoo": {
-                "profil_bild": pygame.transform.scale(
-                    pygame.image.load("Susanoo/susanoo_pb.png"), (100, 100)
-                ),
-            },
-            "Basim": {
-                "profil_bild": pygame.transform.scale(
-                    pygame.image.load("Basim/basim_pb_.png"), (100, 100)
-                ),
-            },
-            "Mai": {
-                "profil_bild": pygame.transform.scale(
-                    pygame.image.load("Mai/mai_pb.png"), (100, 100)
-                ),
-            },
-        }
+        #Dictionary anpassung soll der main zugegriffen werden selbe logik wie bei den spritesheets
+  
 
         # Positionen und Rechtecke als Dictionaries initialisieren
-        self.character_positions = {}
-        self.character_rects = {}
-
-        # Dynamische Anordnung der Charakterbilder (klein und nach oben verschoben)
-        total_width = len(self.characters) * 120 + (len(self.characters) - 1) * 20
-        start_x = (self.screen_width - total_width) // 2
-        y_position = self.screen_height // 4  # Nach oben verschoben
-
-        for i, (name, data) in enumerate(self.characters.items()):
-            x_position = start_x + i * (100 + 20)
-            self.character_positions[name] = (x_position, y_position)
-            self.character_rects[name] = pygame.Rect(x_position, y_position, 100, 100)
-
-        # Schrift für die Labels
+        self.character_positions = {} #speichert x und y posis. der Charaktere
+        self.character_profile_box = {} #speichert rechtecke für die Kollisionsprüfung der Pb's
+ 
+        #Schrift für die Raster(P1,P2)
         self.font = pygame.font.Font(None, 36)
+        
+        # Dynamische Anordnung der Charakterbilder (oben mittig)
+        image_width = 100  #Breite eines Bildes
+        spacing = 20  #Abstand zwischen den Bildern
 
-    def draw(self, selected_characters):
+        #Berechne die gesamte Breite aller Bilder und Abstände
+        total_width = len(self.characters) * image_width + (len(self.characters) - 1) * spacing
+
+        #Berechne die Startposition (zentriert oben auf dem Bildschirm)
+        start_x = (self.screen_width - total_width) // 2
+        y_position = self.screen_height // 4  # Position nach oben verschoben (1/6 des Bildschirms) #6
+
+        #Charakterpositionen und Rechtecke berechnen
+        for i, (name, data) in enumerate(self.characters.items()):
+            x_position = start_x + i * (image_width + spacing)
+            self.character_positions[name] = (x_position, y_position)
+            self.character_profile_box[name] = pygame.Rect(x_position, y_position, image_width, image_width)
+
+
+    def draw_raster(self, selected_characters):   #diese draw funktion in draw_raster umändern
         self.screen.fill((0, 0, 0))  # Hintergrundfarbe Schwarz
 
         # Charakterbilder zeichnen
         for name, data in self.characters.items():
-            rect = self.character_rects[name]
-            self.screen.blit(data["profil_bild"], (rect.x, rect.y))
+            rect = self.character_profile_box[name]
+            self.screen.blit(data["loaded_profile_picture"], (rect.x, rect.y))
 
             # Raster und "P1"/"P2" anzeigen
             if name in selected_characters:
@@ -74,12 +63,12 @@ class CharacterSelectScreen:
         # Ausgewählte Charaktere groß anzeigen
         if len(selected_characters) > 0:
             left_char = self.characters[selected_characters[0]]
-            left_image = pygame.transform.scale(left_char["profil_bild"], (200, 200))
+            left_image = pygame.transform.scale(left_char["loaded_profile_picture"], (200, 200))
             self.screen.blit(left_image, (50, self.screen_height // 2))
 
         if len(selected_characters) > 1:
             right_char = self.characters[selected_characters[1]]
-            right_image = pygame.transform.scale(right_char["profil_bild"], (200, 200))
+            right_image = pygame.transform.scale(right_char["loaded_profile_picture"], (200, 200))
             self.screen.blit(right_image, (self.screen_width - 250, self.screen_height // 2))
 
         pygame.display.update()
@@ -91,7 +80,7 @@ class CharacterSelectScreen:
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                for name, rect in self.character_rects.items():
+                for name, rect in self.character_profile_box.items():
                     if rect.collidepoint(mouse_pos) and name not in selected_characters:
                         selected_characters.append(name)
                         print(f"{name} ausgewählt")
@@ -104,11 +93,11 @@ class CharacterSelectScreen:
         #pygame.mixer.music.play(-1, 0.0, 5000)
 
         while len(selected_characters) < 2:
-            self.draw(selected_characters)
+            self.draw_raster(selected_characters)
             self.handle_events(selected_characters)
 
         # Verbleiben auf dem Screen für 3 Sekunden
-        self.draw(selected_characters)  # Finales Zeichnen
+        self.draw_raster(selected_characters)  # Finales Zeichnen
         pygame.display.update()
         time.sleep(3)
         
@@ -117,13 +106,3 @@ class CharacterSelectScreen:
         print(f"Ausgewählte Charaktere: {selected_characters}")
         return selected_characters
 
-"""""
-# Beispiel zum Testen
-if __name__ == "__main__":
-    screen = pygame.display.set_mode((800, 600))
-    pygame.display.set_caption("Charakterauswahl")
-    select_screen = CharacterSelectScreen(screen, 800, 600)
-    selected = select_screen.run()
-    print(f"Endgültige Auswahl: {selected}")
-    pygame.quit()
-"""

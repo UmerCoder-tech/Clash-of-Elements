@@ -9,6 +9,7 @@ from gamestate import GameLogic
 #from selectscreen import CharacterSelectScreen
 from ui_manager import UIManager
 from endscreen import EndScreen
+from character_data import characters
 #from map_manager import MapSelectScreen
 
 
@@ -107,19 +108,13 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("Clash of Elements")
 clock = pygame.time.Clock()
 
-"""""
-# Hintergrund
-bg_image = pygame.image.load("Hintergrund/Fate's Moon.png")
-def draw_bg():
-    scaled_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
-    screen.blit(scaled_bg, (0, 0))
-"""
 
 def draw_bg():
     if game_manager.selected_map:
         bg_image = game_manager.maps[game_manager.selected_map]["image"]
         scaled_bg = pygame.transform.scale(bg_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
         screen.blit(scaled_bg, (0, 0))
+
 
 # Soundeffekte
 dragon_slayer_fx = pygame.mixer.Sound("Audio/FeuerritterSOUND.mp3")
@@ -134,43 +129,7 @@ end_screen = EndScreen(screen, fonts, colors,game_manager)
 
 
 def main_game(selected_characters,selected_map):
-    print(f"Spiel gestartet mit: {selected_characters}")
-    
-    # Charakterdaten
-    characters = {
-        "Zuko": {
-            "animations": animations_zuko,
-            "sound": dragon_slayer_fx,
-            "attributes": {
-                "name": "Zuko",
-                "profile_picture": "path/to/zuko_profile.png"
-            }
-        },
-        "Susanoo": {
-            "animations": animations_susanoo,
-            "sound": katana__fx,
-            "attributes": {
-                "name": "Susanoo",
-                "profile_picture": "path/to/susanoo_profile.png"
-            }
-        },
-        "Basim": {
-            "animations": animations_basim,
-            "sound": dragon_slayer_fx,
-            "attributes": {
-                "name": "Basim",
-                "profile_picture": "path/to/basim_profile.png"
-            }
-        },
-        "Mai": {
-            "animations": animations_mai,
-            "sound": katana__fx,
-            "attributes": {
-                "name": "Mai",
-                "profile_picture": "path/to/mai_profile.png"
-            }
-        },
-    }
+
 
     # Erstelle Champion-Objekte für beide Spieler
     fighter_1_data = characters[selected_characters[0]]
@@ -239,6 +198,8 @@ def main_game(selected_characters,selected_map):
         if not winner_detected and game_logic.intro_count <= 0:
             fighter_1.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_2)
             fighter_2.move(SCREEN_WIDTH, SCREEN_HEIGHT, fighter_1)
+            fighter_1.update()
+            fighter_2.update()
 
         fighter_1.update()
         fighter_2.update()
@@ -292,7 +253,7 @@ def main_game(selected_characters,selected_map):
 
         pygame.display.update()
 
-    return None  
+    return None #hier endet main game
 
 
 
@@ -410,7 +371,11 @@ if __name__ == "__main__":
             if result == "restart":
                 game_manager.game_state = "menu"  # Zurück ins Hauptmenü
             elif result == "replay":
-                game_manager.game_state = "running" #eben gespeilte runde wird neugestartet
+                #game_manager.game_state = "running" #eben gespeilte runde wird neugestartet
+                game_manager.stop_music()
+                game_manager.play_music(game_manager.maps[game_manager.selected_map]["music"])
+                
+                game_manager.game_state = "running"
     
 
         
