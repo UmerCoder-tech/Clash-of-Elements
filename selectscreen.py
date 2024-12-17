@@ -14,7 +14,9 @@ class CharacterSelectScreen:
         self.characters = characters #import: character dict. aius character_data.py
         # Charaktere mit Bildern laden
         #Dictionary anpassung soll der main zugegriffen werden selbe logik wie bei den spritesheets
-  
+        # Im Konstruktor hinzufügen:
+        self.title_font = pygame.font.Font("Fonts/VT323-Regular.ttf", 48)  # Schriftart-Datei und Größe
+
 
         # Positionen und Rechtecke als Dictionaries initialisieren
         self.character_positions = {} #speichert x und y posis. der Charaktere
@@ -83,7 +85,7 @@ class CharacterSelectScreen:
                 for name, rect in self.character_profile_box.items():
                     if rect.collidepoint(mouse_pos) and name not in selected_characters:
                         selected_characters.append(name)
-                        print(f"{name} ausgewählt")
+                        #print(f"{name} ausgewählt")
 
     def run(self):
         selected_characters = []  # Liste für die ausgewählten Charaktere
@@ -99,7 +101,7 @@ class CharacterSelectScreen:
         # Verbleiben auf dem Screen für 3 Sekunden
         self.draw_raster(selected_characters)  # Finales Zeichnen
         pygame.display.update()
-        time.sleep(3)
+        time.sleep(3) #für 3000ms noch bleiben
         
         #pygame.mixer.music.stop()
 

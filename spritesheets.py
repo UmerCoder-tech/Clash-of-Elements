@@ -78,4 +78,20 @@ animations_rayna = {
     
 }
 
+animations_tenzin = {
+
+}
+
+
+
+animations_thyrion = {
+
+}
+
+
+animations_valeryon = {
+
+}
+
+
 
