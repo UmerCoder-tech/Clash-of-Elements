@@ -1,3 +1,30 @@
+# Hinweis: Die grundlegende Struktur und Funktionalität der Fighter-Klasse wurde von einem YouTube-Tutorial inspiriert.
+# Quelle: [Link zum Tutorial]
+#
+# Übernommene Elemente:
+# - Die Grundidee der Klasse: Verwaltung von Bewegung, Angriffen und Animationen.
+# - Basislogik für Animationen und die `update_action`-Methode.
+# - Grundlegende Steuerung und Angriffslogik.
+#
+# Änderungen und Eigenleistung:
+# 1. Neue Mechaniken:
+#    - Einführung von Verteidigung ("defend") und Spezialangriffen ("atk3") mit Mana-Mechanik.
+#    - Berserker-Phase mit Schadensmultiplikator.
+#
+# 2. Optimierung der Steuerung:
+#    - Nutzung eines Dictionaries zur zentralen Definition von Steuerelementen.
+#    - Modularisierung der Bewegungslogik (`move_left`, `move_right`), wodurch der Code kürzer und wartbarer wurde.
+#
+# 3. Verbesserte Lesbarkeit:
+#    - Verwendung beschreibender Strings anstelle numerischer Zustände für Animationen.
+#    - Umfangreiche Kommentare, um die Logik verständlich zu machen.
+#
+# 4. Erweiterte Animationen:
+#    - Neue Zustände wie "death" und "take_hit" wurden detaillierter behandelt.
+#    - Klarere Trennung zwischen finalen und zurücksetzbaren Animationen.
+
+
+
 import pygame
 
 class Champion:
@@ -10,7 +37,7 @@ class Champion:
         self.attacking = False
         self.attack_type = 0
         self.attack_cooldown = 0
-        self.health = 10
+        self.health = 100
         self.alive = True
         self.hit = False
         self.flip = False
@@ -33,27 +60,23 @@ class Champion:
         self.update_time = pygame.time.get_ticks()
 
         # Offset
-        self.offset_x = (self.rect.width - self.image.get_width()) // 2 + map_data["offset_x"]
-        self.offset_y = (self.rect.height - self.image.get_height()) // 2 + map_data["offset_y"]
+        self.offset_x = (self.rect.width - self.image.get_width()) // 2 + map_data["offset_x"]       #zentrieren unsere sprites und teilen durch 2, damit diese gleichmäßig verteilt werden auf beiden Seiten
+        self.offset_y = (self.rect.height - self.image.get_height()) // 2 + map_data["offset_y"]     # 110 fester wert, der nicht übertroffen werden kann (Boden)
 
-    # Hinweis: Die Grundstruktur der update-Methode (Animationen basierend auf Zuständen) wurde von einem YouTube-Tutorial inspiriert.
-    # Quelle: [Link zum Tutorial]
-    # Änderungen:
-    # - Verwendung eines Mappings (action_mapping), um die Logik zu vereinfachen und flexibler zu machen.
-    # - Hinzufügen zusätzlicher Zustände wie "defend" und "atk3" für erweiterte Mechaniken.
-    # - Verbesserte Lesbarkeit durch Nutzung von Strings statt numerischer Werte für Aktionen.
-    # - Spezifische Trennung zwischen finalen Animationen (z. B. "death") und Animationen, die zurückgesetzt werden können.
-    # - Umfangreiche Kommentierung zur besseren Nachvollziehbarkeit des Codes.
-
-
+   
+  
+    
+   
+    
+    # Spezifische Trennung zwischen finalen Animationen (z. B. "death") und Animationen, die zurückgesetzt werden können, sowie 
+    
     def update(self):
         if self.health <= 0:  #death muss separat geschehen, da die animation final ist 
             self.health = 0
             self.alive = False
             self.update_action("death")
 
-        else:
-            # Mapping für andere nicht-finale Aktionen
+        # Mapping für andere nicht-finale Aktionen mit ihren Zuständen
             action_mapping = {
                 "take_hit": self.hit,
                 "atk1": self.attacking and self.attack_type == 1,
@@ -65,27 +88,27 @@ class Champion:
                 "idle": True  # Default-Aktion
             }
 
-            for action, condition in action_mapping.items():
+            for action, condition in action_mapping.items():    #iteration der key-value paare, die je nach Boolean-Wert geupdatet werden soll 
                 if condition:
                     self.update_action(action)
                     break  # Aktion gefunden, weitere Prüfung abbrechen
 
         # Animation aktualisieren
         animation_cooldown = 50
-        self.image = self.animations[self.action][self.frame_index]
-        if pygame.time.get_ticks() - self.update_time > animation_cooldown:
-            self.frame_index += 1
+        self.image = self.animations[self.action][self.frame_index]    #aktuelle frame der Animation auf Basis der Action
+        if pygame.time.get_ticks() - self.update_time > animation_cooldown: #wenn 50ms vergangen sind, 
+            self.frame_index += 1                                           #soll der nächste Frame abgespeilt werden
             self.update_time = pygame.time.get_ticks()
 
         # Animation zurücksetzen, wenn sie abgeschlossen ist
         if self.frame_index >= len(self.animations[self.action]):
             if not self.alive:
-                self.frame_index = len(self.animations[self.action]) - 1
+                self.frame_index = len(self.animations[self.action]) - 1   #finales frame, wenn tot
             else:
-                self.frame_index = 0
+                self.frame_index = 0                                        #anderseits wird bei frame 0 wieder begonnen
                 if self.action.startswith("atk"):
                     self.attacking = False
-                    self.attack_cooldown = 20
+                    self.attack_cooldown = 20           #zusätzlich ein cooldown für attack
                 if self.action == "take_hit":
                     self.hit = False
                 if self.action == "defend":
@@ -98,17 +121,12 @@ class Champion:
             self.update_time = pygame.time.get_ticks()
 
         
-    # Hinweis: Die Grundstruktur der update-Methode (Animationen basierend auf Zuständen) wurde von einem YouTube-Tutorial inspiriert.
-    # Quelle: [Link zum Tutorial]
-    # Änderungen:
-    # - Verwendung eines Mappings (action_mapping), um die Logik zu vereinfachen und flexibler zu machen.
-    # - Hinzufügen zusätzlicher Zustände wie "defend" und "atk3" für erweiterte Mechaniken.
-    # - Verbesserte Lesbarkeit durch Nutzung von Strings statt numerischer Werte für Aktionen.
-    # - Spezifische Trennung zwischen finalen Animationen (z. B. "death") und Animationen, die zurückgesetzt werden können.
+    
+   
     def move(self, screen_width, screen_height, target):
         GRAVITY = 2
         dx, dy = 0, 0
-        self.running = False
+        #self.running = False  
 
         # Angriffscooldown reduzieren
         if self.attack_cooldown > 0:
@@ -119,8 +137,7 @@ class Champion:
             self.defend_cooldown -= 1
 
 
-        # Hinweis: Die Steuerung wurde mithilfe eines Dictionaries zentralisiert, um Flexibilität und Übersichtlichkeit zu gewährleisten.
-        #Dieser Ansatz unterscheidet sich von der Inspirationsquelle, die eine fest eingebettete Steuerung verwendet.
+        # Zentralisierung der Steuerung mithilfe eines Dictionaries 
         controls = {
             1: {"left": pygame.K_a, "right": pygame.K_d, "jump": pygame.K_w, "attack1": pygame.K_r, "attack2": pygame.K_t, "attack3": pygame.K_z, "defend": pygame.K_f},
             2: {"left": pygame.K_LEFT, "right": pygame.K_RIGHT, "jump": pygame.K_UP, "attack1": pygame.K_u, "attack2": pygame.K_i, "attack3": pygame.K_k, "defend": pygame.K_h}
@@ -199,19 +216,15 @@ class Champion:
             self.defend_cooldown = 50  # Cooldown für defend
             self.update_action("defend")
 
-    # Hinweis: Die Logik für die Angriffsmethode basiert auf einem YouTube-Tutorial.
-    # Quelle: [Link]
-    # Änderungen:
-    # - Hinzufügen von Mana-Mechaniken und Damage-Multiplikator der Berserkerphase
-    # - Unterscheidung zwischen normalen Angriffen und Spezialangriffen
+    
     def perform_attack(self, target, attack_type):
         self.attacking = True
-        self.attack_sound.play()  #.play
+        self.attack_sound.play()  
         self.attack_type = attack_type
         self.update_action(f"atk{attack_type}")
 
         attacking_rect = pygame.Rect(
-            self.rect.centerx - (3 * self.rect.width if self.flip else 0),
+            self.rect.centerx - (3 * self.rect.width if self.flip else 0), #Anrgiffsrechteck, das je nach True/False von Flip entweder vom Zentrum startet oder negativ verschoben wird
             self.rect.y,
             3 * self.rect.width,
             self.rect.height
@@ -226,10 +239,10 @@ class Champion:
             # Mana aufladen bei erfolgreichem Treffer
             self.mana += self.max_mana / 4  # 1/4 des Maximalwertes
             if self.mana >= self.max_mana:
-                self.mana = self.max_mana  # Begrenzung auf Maximalwert
+                self.mana = self.max_mana  
                 self.can_special = True  # Spezialattacke freischalten
 
 
     def draw(self, surface):
-        flipped_image = pygame.transform.flip(self.image, self.flip, False)
-        surface.blit(flipped_image, (self.rect.x + self.offset_x, self.rect.y + self.offset_y))
+        flipped_image = pygame.transform.flip(self.image, self.flip, False)     #  Self.flip je nach boolischem Wert horzontal geflipped, aber niemals Vertikal
+        surface.blit(flipped_image, (self.rect.x + self.offset_x, self.rect.y + self.offset_y))  # Bild soll an der angegebenen Position gezeichnet werden
