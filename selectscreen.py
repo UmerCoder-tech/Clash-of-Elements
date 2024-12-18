@@ -47,7 +47,7 @@ class CharacterSelectScreen:
 
     def draw_raster(self, selected_characters):   #diese draw funktion in draw_raster umändern
         self.screen.fill((0, 0, 0))  # Hintergrundfarbe Schwarz
-        title_text = fonts["select_font"].render("SELECT YOUR FIGHTERS", True, ("RED"))  # Weißer Text
+        title_text = fonts["select_font"].render("CHOOSE YOUR FIGHTERS", True, ("RED"))  # Weißer Text
         title_rect = title_text.get_rect(center=(self.screen_width // 2, 50))  # Zentriert oben
         self.screen.blit(title_text, title_rect)  # Zeige den Text auf dem Bildschirm an
 
@@ -86,7 +86,7 @@ class CharacterSelectScreen:
 
 
         pygame.display.update()
-
+    #Handlet die Mousebutton eingaben der Mauszeiger den innerhalb des Rahmens erkannt wird
     def handle_events(self, selected_characters):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -99,6 +99,7 @@ class CharacterSelectScreen:
                         selected_characters.append(name)
                         #print(f"{name} ausgewählt")
 
+    
     def run(self):
         selected_characters = []  # Liste für die ausgewählten Charaktere
 

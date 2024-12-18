@@ -1,3 +1,18 @@
+# Hinweis: Die grundlegende Struktur und Funktionalität des Button-Managers(main_menu) wurde von einem Youtube Video hergeleitet.
+# Quelle: [https://www.youtube.com/watch?v=G8MYGDf_9ho]
+#
+# Übernommene Elemente:
+# - Die Grundidee der Klasse: Handhabung der Buttons für diverse screens: Hier für main_menu().
+# - def create_button jedoch leicht selber angepasst. Eigene Images geladen.
+# - 
+#
+# Änderungen und Eigenleistung:
+# 1. Neue Mechaniken:
+#    - Das laden des Hintergrundbildes für das main_menu() und die einbindung
+
+
+
+
 import pygame
 from buttons import Button  # Stelle sicher, dass die Button-Klasse importiert ist
 

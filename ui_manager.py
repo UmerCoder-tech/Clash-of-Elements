@@ -14,17 +14,7 @@ class UIManager:
         # Ressourcen zentral laden
         #self.bg_image = pygame.image.load("Hintergrund/Fate's Moon.png")
         self.current_map = None
-        
-        #zeichnet die Profilbilder der fighter unter die Healthbars
-        """""
-        self.character_images = {
-            "Zuko": pygame.image.load("Zuko/zuko_pb.png"),
-            "Susanoo": pygame.image.load("Susanoo/susanoo_pb.png"),
-            "Basim": pygame.image.load("Basim/basim_pb_.png"),
-            "Mai": pygame.image.load("Mai/mai_pb.png"),
-            
-        }
-        """
+
 
     def set_map(self, map_name):
         """

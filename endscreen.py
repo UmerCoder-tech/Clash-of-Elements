@@ -1,3 +1,13 @@
+# Hinweis: Die grundlegende Struktur und Funktionalität des Button-Managers(main_menu) wurde von einem Youtube Video hergeleitet.
+# Quellen: [https://www.youtube.com/watch?v=G8MYGDf_9ho], [https://www.youtube.com/watch?v=ndtFoWWBAoE], [https://www.youtube.com/watch?v=jyrP0dDGqgY]
+#
+# Übernommene Elemente:
+# - Die Grundidee der Klasse: Erzeugt den endscreen mit buttons,winner_text und besitzt eine reset funktion
+# - Die Text erstellug wurde Teils übernommen jedoch auf das spiel angepasst
+# - run() wurde größtenteils selber erstellt auch teils aus bestehenden run() methoden aus anderen klassen übernommen
+# - mouse collide aus dem video entnommen
+
+
 
 import pygame
 
@@ -33,12 +43,7 @@ class EndScreen:
 
     #setzt den Gewinner Text und aktiviert den Endscreen
     def set_winner(self, winner):
-        """
-        Setzt den Gewinner und aktiviert den Endbildschirm.
-
-        Args:
-            winner (str): Der Name des Gewinners.
-        """
+    
         self.winner = winner #gewinner Text wird gesetzt bzw.: Zuko
         self.running = True #endscreen wird aktiv und die schleife run() wird ausgeführt
 

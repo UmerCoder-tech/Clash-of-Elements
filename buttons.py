@@ -1,5 +1,15 @@
+# Hinweis: Die grundlegende Struktur und Funktionalität der buttons.py wurde von einem Youtube Video hergeleitet.
+# Quelle: [https://www.youtube.com/watch?v=G8MYGDf_9ho]
+#
+# Übernommene Elemente:
+# -collide logik: maus mit button
+# -Methode für Draw: Buttons werden gezeichnet
+#
+# Änderungen und Eigenleistung:
+# 1. Neue Mechaniken:
+#    - Code aus dem Video wurde für unser spiel angepasst.
 
-#Muss noch angepasst werden 
+
 
 import pygame
 
