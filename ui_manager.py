@@ -81,12 +81,12 @@ class UIManager:
         self.screen.blit(profile_image, (x, y))
 
     
-
+    
     def draw_player_names(self, fighter_1_data, fighter_2_data):
-        """
-        Zeigt die Namen der Spieler unterhalb der Mana-Balken an.
-        Die Namen werden dynamisch zentriert basierend auf ihrer Länge.
-        """
+        
+        #Zeigt die Namen der Spieler unterhalb der Mana-Balken an.
+        #Die Namen werden dynamisch zentriert basierend auf ihrer Länge.
+        
         name_font = self.fonts["name_font"]
 
         # Berechnung der Breite der Namen

@@ -208,29 +208,11 @@ if __name__ == "__main__":
     
 
     game_manager = GameManager(screen, fonts, colors, maps)
-
+    
     def main_menu():
         #game_manager.play_music("Audio/menu_musik.mp3")
         #animated_button = AnimatedButton(button_image_paths, SCREEN_WIDTH // 2 - 75, SCREEN_HEIGHT // 2 - 37, 150, 75)
 
-        """""
-        game_manager = GameManager(screen, fonts, colors, maps)
-
-
-        button_manager = ButtonManager(
-            screen, 
-            fonts, 
-            colors, 
-            bg_image_path="Hintergrund/main.png"  # Pfad zu deinem Hintergrundbild
-        )
-        
-        #button_manager = ButtonManager(screen, fonts, colors)
-        button_manager.create_buttons(SCREEN_WIDTH, SCREEN_HEIGHT)
-
-        buttons = button_manager.get_buttons()
-        start_button = buttons["start"]
-        quit_button = buttons["quit"]
-        """
 
         game_manager = GameManager(screen, fonts, colors, maps)
 
@@ -239,7 +221,7 @@ if __name__ == "__main__":
             screen, 
             fonts, 
             colors, 
-            bg_image_path="Hintergrund/main.png"  # Pfad zu deinem Hintergrundbild
+            bg_image_path="Hintergrund/menu_picture.png"  # Pfad zu deinem Hintergrundbild
         )
 
         # Buttons erstellen
@@ -279,8 +261,7 @@ if __name__ == "__main__":
                     if start_button.is_clicked(event.pos):
                         game_manager.game_state = "character_select"
                         menu_running = False  # Hauptmenü-Schleife verlassen
-
-                    if quit_button.is_clicked(pygame.mouse.get_pos()):
+                    elif quit_button.is_clicked(event.pos):
                         pygame.quit()
                         exit()
 

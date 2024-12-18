@@ -100,9 +100,9 @@ class GameLogic:
     def draw_round_wins(self):
         """Zeichnet die Anzahl der gewonnenen Runden."""
         for i in range(self.round_wins_fighter_1):
-            pygame.draw.circle(self.screen, self.colors["GOLD"], (160 + i * 20, 102), 10)
+            pygame.draw.circle(self.screen, self.colors["GOLD"], (190 + i * 25, 115), 10) #10, größe
         for i in range(self.round_wins_fighter_2):
-            pygame.draw.circle(self.screen, self.colors["GOLD"], (760 + i * 20, 102), 10)
+            pygame.draw.circle(self.screen, self.colors["GOLD"], (760 + i * 25, 115), 10)
             
     
     
@@ -134,19 +134,30 @@ class GameLogic:
         # Timer läuft nur, wenn intro_count <= 0 ist
         if self.intro_count <= 0 and self.timer > 0:
             current_time = pygame.time.get_ticks()
-            
+
             # Aktualisiere den Timer jede Sekunde
             if current_time - self.last_timer_update >= 1000:  # 1000 ms = 1 Sekunde
                 self.timer -= 1
                 self.last_timer_update = current_time
 
+        # Timer-Text
+        timer_text = str(self.timer)
+        text_width = self.fonts["score_font"].size(timer_text)[0]
+
+        # Allgemeine Verschiebung nach rechts
+        base_x_position = 450  # Ursprünglich 412, jetzt nach rechts verschoben
+        x_position = base_x_position + (100 - text_width) // 2  # Zentriere basierend auf Textbreite
+
         # Timer anzeigen
         self.draw_text(
-            str(self.timer), 
+            timer_text, 
             self.fonts["score_font"], 
             self.colors["LILA"], 
-            412, 40
+            x_position, 40
         )
+
+
+        # Timer-Ende
 
         # Timer-Ende
     
