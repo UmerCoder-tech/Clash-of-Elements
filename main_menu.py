@@ -1,18 +1,11 @@
+
+"""""
 import pygame
 from buttons import Button
 
 class MainMenu:
     def __init__(self, screen, fonts, colors, clock, game_manager, bg_image, FPS):
-        """
-        Initialisiert das Hauptmenü.
-        :param screen: Pygame-Bildschirmobjekt.
-        :param fonts: Schriftarten-Dictionary.
-        :param colors: Farben-Dictionary.
-        :param clock: Pygame Clock für die Framerate.
-        :param game_manager: GameManager-Instanz zur Steuerung des Spiels.
-        :param bg_image: Hintergrundbild des Menüs.
-        :param FPS: Framerate des Spiels.
-        """
+        
         self.screen = screen
         self.fonts = fonts
         self.colors = colors
@@ -53,9 +46,7 @@ class MainMenu:
         )
 
     def run(self):
-        """
-        Startet die Hauptmenü-Schleife.
-        """
+        
         menu_running = True
 
         while menu_running:
@@ -87,3 +78,4 @@ class MainMenu:
 
             pygame.display.update()
             self.clock.tick(self.FPS)
+"""

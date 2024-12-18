@@ -30,7 +30,7 @@ fonts = {
 
 }
 
-
+#Maps Dictionary mit allen Audios und den entsprecghenden Pfaden der Hintergrundbilder 
 maps = {
         "Field of Fate": {
             "image": pygame.image.load("Hintergrund/Fate's Moon.png"),

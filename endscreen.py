@@ -28,7 +28,7 @@ class EndScreen:
         self.replay_button_image = pygame.transform.scale(self.replay_button_image, (200, 50))
 
         #Posi. der Buttons
-        self.restart_button_rect = self.restart_button_image.get_rect(center=(self.screen.get_width() // 2, 450))
+        self.restart_button_rect = self.restart_button_image.get_rect(center=(self.screen.get_width() // 2, 480)) #2, 450
         self.replay_button_rect = self.replay_button_image.get_rect(center=(self.screen.get_width() // 2, 550))
 
     #setzt den Gewinner Text und aktiviert den Endscreen
@@ -57,7 +57,7 @@ class EndScreen:
         
         #Zeigt den gewinner text auf dem Endscreen oberhalb der buttons mittig an 
         if self.winner:
-            winner_text = f"{self.winner} WINS!"
+            winner_text = f"YOU WON!"
             rendered_text = self.fonts["winner_font"].render(winner_text, True, self.colors["GOLD"])
         
             # Zentrierte Position berechnen

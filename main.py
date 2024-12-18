@@ -203,10 +203,6 @@ def main_game(selected_characters,selected_map):
 # Hauptprogramm
 if __name__ == "__main__":
 
-
-    
-    
-
     game_manager = GameManager(screen, fonts, colors, maps)
     
     def main_menu():

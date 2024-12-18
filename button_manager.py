@@ -13,22 +13,18 @@ class ButtonManager:
         self.fonts = fonts
         self.colors = colors
         self.buttons = {}  # Speichert alle Buttons
-        self.bg_image = None
+        self.bg_image = None #Hntergrund unsere main_menus 
 
 
 
         # Lade Hintergrundbild, falls ein Pfad angegeben ist
         if bg_image_path:
-            self.bg_image = pygame.image.load(bg_image_path)
-            self.bg_image = pygame.transform.scale(self.bg_image, (screen.get_width(), screen.get_height()))
+            self.bg_image = pygame.image.load(bg_image_path) #Dahinter steckt der übergebene Pfad unseres Hintergrundbilds
+            self.bg_image = pygame.transform.scale(self.bg_image, (screen.get_width(), screen.get_height())) #Das bild wird an die größe des Fensters angepasst 
 
 
     def create_buttons(self, screen_width, screen_height):
-        """
-        Erstellt die Buttons und speichert sie in einem Dictionary.
-        :param screen_width: Breite des Bildschirms.
-        :param screen_height: Höhe des Bildschirms.
-        """
+    #Die Start und Quit Buttons werden hier erzeugt und gesetzt 
         button_width = 350
         button_height = 80
         start_button_x = screen_width // 2 - button_width // 2
@@ -63,13 +59,13 @@ class ButtonManager:
     def draw_buttons(self):
         """Zeichnet die Buttons auf dem Bildschirm."""
         if self.bg_image:
-            self.screen.blit(self.bg_image, (0, 0))
+            self.screen.blit(self.bg_image, (0, 0)) #Bei dieswr if-Anweisung wird ein das hinterlegte Hintergrundbild gezeichnet
 
 
-        for button in self.buttons.values():
-            button.draw(self.screen)
+        for button in self.buttons.values(): #zeichnet alle buttons
+            button.draw(self.screen) 
         
 
     def get_buttons(self):
         """Gibt das Button-Dictionary zurück."""
-        return self.buttons
+        return self.buttons #gibt es Dict. Buttons wieder kann an mehreren stellen verwendet werden
