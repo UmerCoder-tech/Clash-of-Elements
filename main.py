@@ -10,6 +10,7 @@ from ui_manager import UIManager
 from endscreen import EndScreen
 from character_data import characters
 from ressource import fonts,colors,maps
+from button_manager import ButtonManager
 
 
 # Initialisiere Pygame
@@ -203,49 +204,53 @@ def main_game(selected_characters,selected_map):
 if __name__ == "__main__":
 
 
+    
+    
 
     game_manager = GameManager(screen, fonts, colors, maps)
 
     def main_menu():
-
         #game_manager.play_music("Audio/menu_musik.mp3")
-
-        button_width = 200
-        button_height = 80
-        start_button_x = SCREEN_WIDTH // 2 - button_width // 2  # Zentriert
-        start_button_y = SCREEN_HEIGHT // 2 - button_height - 40  # Oberhalb des Quit-Buttons
-        quit_button_x = SCREEN_WIDTH // 2 - button_width // 2  # Zentriert
-        quit_button_y = SCREEN_HEIGHT // 2 + 40  # Unterhalb des Start-Buttons
-
-
-        # Start-Button erstellen
-        start_button = Button(
-            image_path="ButtonRed/pngegg.png",
-            x=start_button_x,
-            y=start_button_y,
-            new_width=button_width,
-            new_height=button_height,
-            text="Start",
-            font=fonts["button_font"],
-            text_color=colors["WHITE"]
-        )
-
-    # Quit-Button erstellen
-        quit_button = Button(
-            image_path="ButtonRed/pngegg.png",
-            x=quit_button_x,
-            y=quit_button_y,
-            new_width=button_width,
-            new_height=button_height,
-            text="Quit",
-            font=fonts["button_font"],
-            text_color=colors["WHITE"]
-        )
-
-
-    
-
         #animated_button = AnimatedButton(button_image_paths, SCREEN_WIDTH // 2 - 75, SCREEN_HEIGHT // 2 - 37, 150, 75)
+
+        """""
+        game_manager = GameManager(screen, fonts, colors, maps)
+
+
+        button_manager = ButtonManager(
+            screen, 
+            fonts, 
+            colors, 
+            bg_image_path="Hintergrund/main.png"  # Pfad zu deinem Hintergrundbild
+        )
+        
+        #button_manager = ButtonManager(screen, fonts, colors)
+        button_manager.create_buttons(SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        buttons = button_manager.get_buttons()
+        start_button = buttons["start"]
+        quit_button = buttons["quit"]
+        """
+
+        game_manager = GameManager(screen, fonts, colors, maps)
+
+        #Hintergrund wird über den Buttonmanager aufgerufen
+        button_manager = ButtonManager(
+            screen, 
+            fonts, 
+            colors, 
+            bg_image_path="Hintergrund/main.png"  # Pfad zu deinem Hintergrundbild
+        )
+
+        # Buttons erstellen
+        button_manager.create_buttons(SCREEN_WIDTH, SCREEN_HEIGHT)
+
+        # Buttons abrufen
+        buttons = button_manager.get_buttons()
+        start_button = buttons["start"]
+        quit_button = buttons["quit"]
+
+        
         menu_running = True
 
         while menu_running:
@@ -283,13 +288,11 @@ if __name__ == "__main__":
             # Buttons zeichnen
             #start_button.draw(screen)
             quit_button.draw(screen)
+            button_manager.draw_buttons()
 
         # Bildschirm aktualisieren
             pygame.display.update()
             clock.tick(FPS)
-    
-
-
 
 # Stelle sicher, dass reset_game_state verfügbar ist
 
@@ -318,8 +321,6 @@ if __name__ == "__main__":
                 
                 game_manager.game_state = "running"
     
-
-        
         if not handle_events():
             break
 
