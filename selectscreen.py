@@ -1,4 +1,3 @@
-
 import pygame
 import time
 from character_data import characters
@@ -102,10 +101,6 @@ class CharacterSelectScreen:
     
     def run(self):
         selected_characters = []  # Liste für die ausgewählten Charaktere
-
-        #pygame.mixer.music.load("Audio/Ryus Ost.mp3")
-        #pygame.mixer.music.set_volume(0.5)
-        #pygame.mixer.music.play(-1, 0.0, 5000)
 
         while len(selected_characters) < 2:
             self.draw_raster(selected_characters)

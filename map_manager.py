@@ -1,4 +1,13 @@
 
+# Übernommene Elemente:
+# - Die Grundidee der Klasse: Ermöglichung der Map auswahl von 4 Maps
+# - Grundlegende Steuerung und Angriffslogik.
+#
+# Änderungen und Eigenleistung:
+# - handle events wurde aus den bestehenden klasse intigriert 
+# -def run() wurde selber erstellt
+
+
 
 
 import pygame

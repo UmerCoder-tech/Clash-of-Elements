@@ -78,16 +78,17 @@ animations_rayna = {
     
 }
 
+#Der tatsächliche scalefaktor wurde bei tenzin intern geändert da dieser Char eigenartig gezeichnet ist
 animations_tenzin = {
-    "idle": load_animation_frames("Tenzin/idle_frames/idle",6, scale_factor),
-    "atk1": load_animation_frames("Tenzin/air_atk_frames/air_atk",7,scale_factor),
-    "atk2": load_animation_frames("Tenzin/2_atk_frames/2_atk",12,scale_factor),
-    "atk3": load_animation_frames("Tenzin/sp_atk_frames/sp_atk",25,scale_factor),
-    "run":  load_animation_frames("Tenzin/run_frames/run",8,scale_factor),
-    "jump": load_animation_frames("Tenzin/j_up_frames/j_up",3,scale_factor),
-    "defend": load_animation_frames("Tenzin/defend_frames/defend", 13, scale_factor),
-    "take_hit": load_animation_frames("Tenzin/take_hit_frames/take_hit",6,scale_factor),
-    "death": load_animation_frames("Tenzin/death_frames/death",18,scale_factor)
+    "idle": load_animation_frames("Tenzin/idle_frames/idle",6, 3.9),
+    "atk1": load_animation_frames("Tenzin/air_atk_frames/air_atk",7, 3.9),
+    "atk2": load_animation_frames("Tenzin/2_atk_frames/2_atk",12, 3.9),
+    "atk3": load_animation_frames("Tenzin/sp_atk_frames/sp_atk",25, 3.9),
+    "run":  load_animation_frames("Tenzin/run_frames/run",8, 3.9),
+    "jump": load_animation_frames("Tenzin/j_up_frames/j_up",3, 3.9),
+    "defend": load_animation_frames("Tenzin/defend_frames/defend", 13, 3.9),
+    "take_hit": load_animation_frames("Tenzin/take_hit_frames/take_hit",6, 3.9),
+    "death": load_animation_frames("Tenzin/death_frames/death",18, 3.9)
 
 }
 

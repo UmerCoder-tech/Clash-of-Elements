@@ -24,9 +24,9 @@ FPS = 60
 
 #Hauptost
 
-main_theme = pygame.mixer.music.load("Audio/menu_musik.mp3")
-pygame.mixer.music.set_volume(0.5)
-pygame.mixer.music.play(-1, 0.0, 5000)
+#main_theme = pygame.mixer.music.load("Audio/menu_musik.mp3")
+#pygame.mixer.music.set_volume(0.5)
+#pygame.mixer.music.play(-1, 0.0, 5000)
 
 
 def draw_text(text, font, text_col, x, y):
