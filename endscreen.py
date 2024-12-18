@@ -49,10 +49,7 @@ class EndScreen:
 
 
     def draw_end_screen(self):
-        """
-        Zeichnet den transparenten Endscreen mit dem Gewinnertext und Buttons.
-        Gibt die Rechtecke der Buttons für die Kollisionserkennung zurück.
-        """
+        
         # Erstelle eine transparente Oberfläche
         transparent_surface = pygame.Surface((self.screen.get_width(), self.screen.get_height()), pygame.SRCALPHA)
         transparent_surface.fill((0, 0, 0, 150))  # Schwarz mit 150 Alpha (halbtransparent)
@@ -96,10 +93,6 @@ class EndScreen:
 
 
     def run(self):
-        #Returns:
-            #str: "restart", wenn der Neustart-Button geklickt wird.
-            #str: "replay", wenn die Wiederholen-Schaltfläche geklickt wird.
-            #Wartet bis eine der beiden Aktionen ausgeführt wird
         while self.running:
             # Zeichne den transparenten Endscreen
             restart_button_rect, replay_button_rect = self.draw_end_screen()

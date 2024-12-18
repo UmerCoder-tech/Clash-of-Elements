@@ -13,15 +13,13 @@ class GameManager:
         self.screen = screen
         self.fonts = fonts
         self.colors = colors
-        #self.end_screen = EndScreen(screen, fonts, colors)
         self.game_logic = None
         self.maps = maps
         self.music_playing = False
 
 
-        # Pass reset_game_state to EndScreen
-        #self.end_screen = EndScreen(screen, fonts, colors)
-    """""
+        
+    
     def play_music(self, music_path):
     #tartet die Musik, falls sie nicht läuft.
         if not self.music_playing:
@@ -29,10 +27,9 @@ class GameManager:
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(-1, 0.0, 5000)
             self.music_playing = True
-    """
+    
 
     def stop_music(self):
-        """Stoppt die Musik."""
         if self.music_playing:
             pygame.mixer.music.stop()
             self.music_playing = False
@@ -47,7 +44,6 @@ class GameManager:
 
     
     def run_main_menu(self, main_menu):
-        #self.play_music("Audio/menu_musik.mp3")
         result = main_menu()
         if result is None:    #Das einmal so ändert das nicht auf resukt is none grfragt wird 
             self.running = False
@@ -55,7 +51,6 @@ class GameManager:
             self.game_state = "character_select"
 
     def run_character_select(self):
-        #self.play_music("Audio/menu_musik.mp3")
         select_screen = CharacterSelectScreen(self.screen, self.screen.get_width(), self.screen.get_height(),self.fonts)
         self.selected_character = select_screen.run()
         if self.selected_character:
@@ -65,7 +60,7 @@ class GameManager:
 
     
     def run_map_select(self):
-        #self.play_music("Audio/menu_musik.mp3")
+        
         map_screen = MapSelectScreen(self.screen, self.fonts, self.colors, self.maps)
         selected_map = map_screen.run()  # Zeige Map-Auswahlbildschirm an und warte auf Auswahl
         if selected_map:

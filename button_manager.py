@@ -18,12 +18,7 @@ from buttons import Button  # Stelle sicher, dass die Button-Klasse importiert i
 
 class ButtonManager:
     def __init__(self, screen, fonts, colors, bg_image_path = None):
-        """
-        Initialisiert den ButtonManager.
-        :param screen: Das Pygame-Hauptfenster.
-        :param fonts: Dictionary mit Schriftarten.
-        :param colors: Dictionary mit Farben.
-        """
+        
         self.screen = screen
         self.fonts = fonts
         self.colors = colors
@@ -72,7 +67,6 @@ class ButtonManager:
         )
 
     def draw_buttons(self):
-        """Zeichnet die Buttons auf dem Bildschirm."""
         if self.bg_image:
             self.screen.blit(self.bg_image, (0, 0)) #Bei dieswr if-Anweisung wird ein das hinterlegte Hintergrundbild gezeichnet
 
@@ -82,5 +76,5 @@ class ButtonManager:
         
 
     def get_buttons(self):
-        """Gibt das Button-Dictionary zurück."""
-        return self.buttons #gibt es Dict. Buttons wieder kann an mehreren stellen verwendet werden
+        #Gibt das Button-Dictionary zurück.
+        return self.buttons 

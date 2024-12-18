@@ -40,7 +40,7 @@ characters = {
     },
     "Rayna": {
         "animations": animations_rayna,
-        "sound":pygame.mixer.Sound("Audio/doubleknife.mp3"), #vielleicht wasser
+        "sound":pygame.mixer.Sound("Audio/doubleknife.mp3"), 
         "attributes": {
             "name": "Rayna",
             "profil_bild": "Rayna/rayna_pb.png",
@@ -81,5 +81,4 @@ for char_name, char_data in characters.items():  #char_name enthält namen des c
     char_data["loaded_profile_picture"] = pygame.transform.scale( #fügt das skalierte bild in das characters dict. hinzu
         pygame.image.load(char_data["attributes"]["profil_bild"]), (100, 100) #zieht sich das bild was in dem Pfad hinter prpfilbild gespeichert ist
     )
-    # Sound laden
-    #char_data["loaded_sound"] = pygame.mixer.Sound(char_data["sound"])
+

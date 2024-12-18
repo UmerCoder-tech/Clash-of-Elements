@@ -155,10 +155,6 @@ class GameLogic:
             x_position, 40
         )
 
-
-        # Timer-Ende
-
-        # Timer-Ende
     
     def check_berserker_phase(self):
         #Aktiviert die Berserker-Phase, wenn der Timer 20 Sekunden erreicht

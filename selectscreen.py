@@ -43,7 +43,7 @@ class CharacterSelectScreen:
             self.character_positions[name] = (x_position, y_position)
             self.character_profile_box[name] = pygame.Rect(x_position, y_position, image_width, image_width)
 
-
+    #DIESE METHODE WURDE KI GENERIERT!!!!
     def draw_raster(self, selected_characters):   #diese draw funktion in draw_raster umändern
         self.screen.fill((0, 0, 0))  # Hintergrundfarbe Schwarz
         title_text = fonts["select_font"].render("CHOOSE YOUR FIGHTERS", True, ("RED"))  # Weißer Text
@@ -96,7 +96,7 @@ class CharacterSelectScreen:
                 for name, rect in self.character_profile_box.items():
                     if rect.collidepoint(mouse_pos) and name not in selected_characters:
                         selected_characters.append(name)
-                        #print(f"{name} ausgewählt")
+                        
 
     
     def run(self):
@@ -111,8 +111,6 @@ class CharacterSelectScreen:
         pygame.display.update()
         time.sleep(3) #für 3000ms noch bleiben
         
-        #pygame.mixer.music.stop()
-
-        print(f"Ausgewählte Charaktere: {selected_characters}")
+    
         return selected_characters
 

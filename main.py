@@ -5,7 +5,7 @@ from game_manager import GameManager
 from buttons import Button
 from spritesheets import animations_zuko, animations_susanoo, animations_basim, animations_mai
 from champion import Champion
-from gamestate import GameLogic
+from gamelogic import GameLogic
 from ui_manager import UIManager
 from endscreen import EndScreen
 from character_data import characters
@@ -24,18 +24,14 @@ FPS = 60
 
 #Hauptost
 
-#main_theme = pygame.mixer.music.load("Audio/menu_musik.mp3")
-#pygame.mixer.music.set_volume(0.5)
-#pygame.mixer.music.play(-1, 0.0, 5000)
+main_theme = pygame.mixer.music.load("Audio/menu_musik.mp3")
+pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.play(-1, 0.0, 5000)
 
 
 def draw_text(text, font, text_col, x, y):
-    # text: Der anzuzeigende Text (String).
-    # font: Das pygame.font.Font-Objekt, das den Schriftstil und die Größe definiert.
-    # text_col: Die Farbe des Textes als RGB-Tupel, z. B. (255, 255, 255) für Weiß.
-    # x, y: Die Koordinaten, an denen der Text auf dem Bildschirm gezeichnet wird.
-    img = font.render(text, True, text_col)  # Render den Text als Bild (antialiasing=True, text_col für die Farbe).
-    screen.blit(img, (x, y))  # Zeichne das Bild an die gewünschte Position auf dem Bildschirm.
+    img = font.render(text, True, text_col)  
+    screen.blit(img, (x, y))  
 
 # Ereignisse zentral behandeln
 def handle_events():
@@ -60,10 +56,9 @@ def draw_selected_map():
         screen.blit(scaled_bg, (0, 0))
 
 
-# Soundeffekte
 
 
-# UI-Manager und Endbildschirm
+# UI-Manager und Endbildschirm,Gamemanager
 ui_manager = UIManager(screen, fonts, colors, draw_text, maps)
 game_manager = GameManager(screen, fonts, colors, maps)
 end_screen = EndScreen(screen, fonts, colors,game_manager)
@@ -158,9 +153,7 @@ def main_game(selected_characters,selected_map):
         ui_manager.draw_mana_bar(fighter_2.mana, 618, 65)
         ui_manager.draw_player_names(fighter_1_data, fighter_2_data)
 
-        # Namen der Spieler anzeigen
-        #draw_text(fighter_1_data["attributes"]["name"], fonts["name_font"], colors["WHITE"], 80, 80)
-        #draw_text(fighter_2_data["attributes"]["name"], fonts["name_font"], colors["WHITE"], 817, 80)
+    
 
         # Spiel-Logik aktualisieren
         if not winner_detected:
@@ -206,8 +199,6 @@ if __name__ == "__main__":
     game_manager = GameManager(screen, fonts, colors, maps)
     
     def main_menu():
-        #game_manager.play_music("Audio/menu_musik.mp3")
-        #animated_button = AnimatedButton(button_image_paths, SCREEN_WIDTH // 2 - 75, SCREEN_HEIGHT // 2 - 37, 150, 75)
 
 
         game_manager = GameManager(screen, fonts, colors, maps)
@@ -261,9 +252,7 @@ if __name__ == "__main__":
                         pygame.quit()
                         exit()
 
-            #pygame.display.update()
-            # Buttons zeichnen
-            #start_button.draw(screen)
+            
             quit_button.draw(screen)
             button_manager.draw_buttons()
 
