@@ -25,7 +25,7 @@ FPS = 60
 #Hauptost
 
 main_theme = pygame.mixer.music.load("Audio/menu_musik.mp3")
-pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.set_volume(0.4) #lautstärke einstellen
 pygame.mixer.music.play(-1, 0.0, 5000)
 
 

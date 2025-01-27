@@ -37,7 +37,7 @@ class Champion:
         self.attacking = False
         self.attack_type = 0
         self.attack_cooldown = 0
-        self.health = 100
+        self.health = 10
         self.alive = True
         self.hit = False
         self.flip = False

@@ -76,7 +76,7 @@ class GameManager:
 
     def run_end_screen(self):
         restart = self.end_screen.run()
-        if restart == "restart" and self.game_logic: #Noch nachfragen warum self.gaem_logic
+        if restart == "restart" and self.game_logic: 
             self.game_state = "character_select" #main_menu
 
     
